@@ -48,6 +48,27 @@ class Guitar(db.Model):
     def __repr__(self):
         return f'Guitar(id={self.id}, user_id={self.user_id}, model={self.model}, description={self.description},is_selling={self.is_selling})'
     
+    @validates('model')
+    def validate_model(self,key,value):
+        if not value:
+            raise ValueError('Model cannot be empty')
+        if len(value) > 200:
+            raise ValueError("Model cannot exceed 200 characters")
+        return value
+    @validates('is_selling')
+    def validate_is_selling(self, key, value):
+        if value is None:
+            raise ValueError("is_selling must have a value")
+        return value
+    
+    @validates('price')
+    def validate_price(self, key, value):
+        if self.is_selling and value is None:
+            raise ValueError("Price is required when the guitar is for sale")
+        return value
+        
+                             
+    
     # incorporate materials to correspond to categories
     #boolean to be sold or not selling and nullable price: if false no ability to set price, if true you have access to set price
     
