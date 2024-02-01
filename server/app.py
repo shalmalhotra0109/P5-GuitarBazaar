@@ -1,7 +1,7 @@
 from flask import Flask, request, make_response
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
-from models import User, Guitars, Sellers, SellerGuitars, UserLikes, Categories, Subcategories, db
+from models import User, Guitar, Sellers, SellerGuitars, UserLikes, Categories, Subcategories, db
 from flask_migrate import Migrate
 from flask_cors import CORS
 
@@ -49,7 +49,7 @@ class UserResource(Resource):
             return {'error': 'User not found'}, 404
 class GuitarsResource(Resource):
     def get(self):
-        guitars = [g.to_dict() for g in Guitars.query.all()]
+        guitars = [g.to_dict() for g in Guitar.query.all()]
         return guitars
 
     
