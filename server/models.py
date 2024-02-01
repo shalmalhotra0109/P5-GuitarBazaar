@@ -31,7 +31,7 @@ class User(db.Model, SerializerMixin):
     
     
 
-class Guitar(db.Model):
+class Guitar(db.Model, SerializerMixin):
     __tablename__ = 'guitars'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users_id'), nullable=False)
@@ -75,16 +75,24 @@ class Guitar(db.Model):
     
     #do seller and seller guitars model make sense?
     
-class Sellers(db.Model):
-    __tablename__ = 'sellers'
+class Sellers(db.Model, SerializerMixin):
+    __tablename__ 
+    = 'sellers'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
     username = db.Column(db.Varchar(200), db.ForeignKey('username'), nullable=False)
     guitars_id = db.Column(db.Integer)
     #boolean in users table to indicate seller
     #is this guitars_id or guitar_id with foreignkey
+    serialize_rules = '(-)'
     
-class SellerGuitars(db.Model):
+    #relationships
+    
+   # @validates username again?
+   
+    
+    
+class SellerGuitars(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     __tablename__ = 'seller guitars'
     guitar_id = db.Column(db.Integer, db.ForeignKey('guitar_id'), nullable=False)
@@ -93,8 +101,12 @@ class SellerGuitars(db.Model):
     price = db.Column(db.Float)
     #get rid of table?
     
+    #serialize_rules
+    #relationships
     
-class UserLikes(db.Model):
+    @validates('')
+    
+class UserLikes(db.Model, SerializerMixin):
     guitar_id = db.Column(db.Integer, db.ForeignKey('guitar_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
     
@@ -107,7 +119,7 @@ class Categories(db.Model):
    # material
    #year
 
-class Subcategories(db.Model):
+class Subcategories(db.Model, SerializerMixin):
     __tablename__ = 'subcategories'
     id = db.Column(db.Integer, primary_key=True)
     subcategory_name = db.Column(db.String(200))
