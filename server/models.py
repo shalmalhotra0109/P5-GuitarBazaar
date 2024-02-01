@@ -104,13 +104,13 @@ class SellerGuitars(db.Model, SerializerMixin):
     #serialize_rules
     #relationships
     
-    @validates('')
+    #@validates('username')
     
 class UserLikes(db.Model, SerializerMixin):
     guitar_id = db.Column(db.Integer, db.ForeignKey('guitar_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
     
-class Categories(db.Model):
+class Categories(db.Model, SerializerMixin):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
     guitar_brand = db.Column(db.String(200))
@@ -124,7 +124,6 @@ class Subcategories(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     subcategory_name = db.Column(db.String(200))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
-
 
 
 
