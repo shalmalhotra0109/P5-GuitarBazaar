@@ -127,6 +127,7 @@ class Categories(db.Model, SerializerMixin):
     guitar_material = db.Column(db.String(200))
     year = db.Column(db.Integer)
    #serialize_rules
+    serialize_rules = ('-subcategories.category')
    #relationships
     subcategories = db.relationship('Subcategories', backref='category')
    
@@ -146,7 +147,7 @@ class Subcategories(db.Model, SerializerMixin):
     subcategory_name = db.Column(db.String(200))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     
-   # serialize_rules =
+    serialize_rules = ('-category.subcategories')
     
     #relationships
     category = db.relationship('Categories', backref='subcategories')
