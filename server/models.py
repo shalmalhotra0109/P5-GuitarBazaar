@@ -44,6 +44,7 @@ class Guitar(db.Model, SerializerMixin):
     
     #relationships
     user = db.relationship('User', backref='guitars')
+     
 
     def __repr__(self):
         return f'Guitar(id={self.id}, user_id={self.user_id}, model={self.model}, description={self.description},is_selling={self.is_selling})'
@@ -87,6 +88,7 @@ class Sellers(db.Model, SerializerMixin):
     serialize_rules = '(-)'
     
     #relationships
+    user = db.relationship('User', backref='sellers')
     
    # @validates username again?
    
@@ -103,6 +105,8 @@ class SellerGuitars(db.Model, SerializerMixin):
     
     #serialize_rules
     #relationships
+    guitar = db.relationship('Guitar', backref='seller_guitars')
+    user = db.relationship('User', backref='seller_guitars')
     
     #@validates('username')
     
@@ -112,6 +116,8 @@ class UserLikes(db.Model, SerializerMixin):
     
     #serialize_rules= 
     #relationships
+    guitar = db.relationship('Guitar', backref='user_likes')
+    user = db.relationship('User', backref='user_likes')
     
     
     
@@ -123,6 +129,7 @@ class Categories(db.Model, SerializerMixin):
     year = db.Column(db.Integer)
    #serialize_rules
    #relationships
+    subcategories = db.relationship('Subcategories', backref='category')
    
     @validates('guitar_brand')
     def validates_guitar_brand(self,key,value):
@@ -139,6 +146,18 @@ class Subcategories(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     subcategory_name = db.Column(db.String(200))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
+    
+   # serialize_rules =
+    
+    #relationships
+    category = db.relationship('Categories', backref='subcategories')
+    
+    #validations
+    @validates('subcategory_name')
+    def validates_subcategory_name(self,key,value):
+        if value is not None and len(value) > 200:
+            raise ValueError("Subcategory cannot exceed 200 characters")
+        return value
 
 
 
