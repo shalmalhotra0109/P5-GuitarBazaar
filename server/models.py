@@ -77,8 +77,7 @@ class Guitar(db.Model, SerializerMixin):
     #do seller and seller guitars model make sense?
     
 class Sellers(db.Model, SerializerMixin):
-    __tablename__ 
-    = 'sellers'
+    __tablename__  = 'sellers'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
     username = db.Column(db.Varchar(200), db.ForeignKey('username'), nullable=False)
