@@ -84,7 +84,7 @@ class Sellers(db.Model, SerializerMixin):
     guitars_id = db.Column(db.Integer)
     #boolean in users table to indicate seller
     #is this guitars_id or guitar_id with foreignkey
-    serialize_rules = '(-)'
+    serialize_rules = ('-user.sellers')
     
     #relationships
     user = db.relationship('User', backref='sellers')
@@ -102,7 +102,7 @@ class SellerGuitars(db.Model, SerializerMixin):
     price = db.Column(db.Float)
     #get rid of table?
     
-    #serialize_rules
+    serialize_rules = ('-guitar.seller_guitars', 'user.seller_guitars')
     #relationships
     guitar = db.relationship('Guitar', backref='seller_guitars')
     user = db.relationship('User', backref='seller_guitars')
@@ -113,7 +113,7 @@ class UserLikes(db.Model, SerializerMixin):
     guitar_id = db.Column(db.Integer, db.ForeignKey('guitar_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
     
-    #serialize_rules= 
+    serialize_rules = ('-guitar.user_likes', 'user.user_likes')
     #relationships
     guitar = db.relationship('Guitar', backref='user_likes')
     user = db.relationship('User', backref='user_likes')
