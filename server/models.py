@@ -110,15 +110,30 @@ class UserLikes(db.Model, SerializerMixin):
     guitar_id = db.Column(db.Integer, db.ForeignKey('guitar_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
     
+    #serialize_rules= 
+    #relationships
+    
+    
+    
 class Categories(db.Model, SerializerMixin):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
     guitar_brand = db.Column(db.String(200))
     guitar_material = db.Column(db.String(200))
     year = db.Column(db.Integer)
-   # material
-   #year
-
+   #serialize_rules
+   #relationships
+   
+    @validates('guitar_brand')
+    def validates_guitar_brand(self,key,value):
+       if value is not None and len(value) > 200:
+           raise ValueError("Brand cannot exceed 200 characters")
+       return value 
+    @validates('guitar_material')
+    def validates_guitar_material(self,key,value):
+       if value is not None and len(value) > 200:
+           raise ValueError("Brand cannot exceed 200 characters")
+       return value
 class Subcategories(db.Model, SerializerMixin):
     __tablename__ = 'subcategories'
     id = db.Column(db.Integer, primary_key=True)
