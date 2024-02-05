@@ -13,7 +13,7 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.Varchar(50), nullable=False)
     is_seller= db.Column(db.Boolean, default=False, nullable=False)
     #boolean indicated seller or not which lets toggle available or not
-    serialize_rules = ('-')
+    serialize_rules = ('-guitars.user')
     
     guitars = db.relationship( 'Guitar', backref= 'user')
     
@@ -40,7 +40,7 @@ class Guitar(db.Model, SerializerMixin):
     is_selling = db.Column(db.Boolean, default=False, nullable=False)
     price = db.Column(db.Float, nullable=True)
     
-    #serialize_rules = (-)
+    serialize_rules = (-'user.guitars')
     
     #relationships
     user = db.relationship('User', backref='guitars')
