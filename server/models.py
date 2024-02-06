@@ -34,11 +34,12 @@ class User(db.Model, SerializerMixin):
 class Guitar(db.Model, SerializerMixin):
     __tablename__ = 'guitars'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users_id'), nullable=False)
-    model = db.Column(db.string(200), nullable=False)
-    description = db.Column(db.String(350), nullable=False)
-    is_selling = db.Column(db.Boolean, default=False, nullable=False)
+    username = db.Column(db.String(50), nullable=False)
+    is_seller = db.Column(db.Boolean, default=False, nullable=False)
+    seller_mode = db.Column(db.Boolean, default=False, nullable=False)
     price = db.Column(db.Float, nullable=True)
+    accept_bids = db.Column(db.Boolean, default=False, nullable=False)
+    accept_exchange = db.Column(db.Boolean, default=False, nullable=False)
     
     serialize_rules = (-'user.guitars')
     
