@@ -25,7 +25,7 @@ class UsersResource(Resource):
         return users
     def post(self):
         user_data = request.get_json()
-        user = User(**user_data)
+        user = Users(**user_data)
         db.session.add(user)
         db.session.commit()
         return user.to_dict(), 201
@@ -39,11 +39,11 @@ class UsersResource(Resource):
             print(f"Failed to create user '{username}'")
 class UserResource(Resource):
     def get(self, id):
-        user = User.query.get(id)
+        user = Users.query.get(id)
         return user.to_dict()
     
     def delete(self, id):
-        user = User.query.get(id)
+        user = Users.query.get(id)
         if user:
             db.session.delete(user)
             db.session.commit()
@@ -52,7 +52,7 @@ class UserResource(Resource):
             return {'error': 'User not found'}, 404
 class GuitarsResource(Resource):
     def get(self):
-        guitars = [g.to_dict() for g in Guitar.query.all()]
+        guitars = [g.to_dict() for g in Guitars.query.all()]
         return guitars
 class GuitarResource(Resource):
     pass 
