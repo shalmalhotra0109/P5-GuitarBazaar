@@ -20,11 +20,25 @@ with app.app_context():
             user6 = Users(id=6, username='chilipeppers1', password='chili')
             user7 = Users(id=7, username='mickfleetwood', password='silversprings')
             
+        #   id = db.Column(db.Integer, primary_key=True)
+    # user_id = db.Column(db.Integer, nullable=True)
+    # brand = db.Column(db.String(200))
+    # model = db.Column(db.String(200))
+    # material = db.Column(db.String(200))
+    # description = db.Column(db.String(350))
+    # accept_bids = db.Column(db.Boolean, default=False, nullable=False)
+    # accept_exchange
+            guitar1 = Guitars(user_id=1, brand='Squier',model='Paranormal Jazzmaster XII', material='Body: Poplar, Neck: Maple, Fingerboard: Laurel, Finish: gloss polyurethane')
+            guitar2 = Guitars(user_id=2, brand='Gibson',model='Billie Joe Armstrong Les Paul Junior', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Rosewood, Finish: ebony gloss')
+            guitar3 = Guitars(user_id=3, brand='Fender',model='Jimmy Page Telecaster', material='Body: Solid Ash, Neck: Maple, Fingerboard: Rosewood, Finish: satin lacquer')
+            guitar4 = Guitars(user_id=4, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
+            guitar5 = Guitars(user_id=5, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
+            guitar6 = Guitars(user_id=6, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
+            guitar7 = Guitars(user_id=1, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
+            
+            
 
-            guitar1 = Guitars(name='Veggie Delight', ingredients='Dough, Tomato Sauce, Cheese, Mushrooms, Bell Peppers')
-            pizza2 = Guitars(name='Meat Lovers', ingredients='Dough, Tomato Sauce, Cheese, Pepperoni, Sausage, Bacon')
-
-            db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1])
+            db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1, guitar2, guitar3, guitar4])
             db.session.commit()
 
             restaurant_pizza1 = RestaurantPizza(price=12, pizza=pizza1, restaurant=restaurant1)
