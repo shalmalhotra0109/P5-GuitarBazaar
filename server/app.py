@@ -21,7 +21,7 @@ migrate = Migrate(app, db)
 
 class UsersResource(Resource):
     def get(self):
-        users = [u.to_dict() for u in User.query.all()]
+        users = [u.to_dict() for u in Users.query.all()]
         return users
     def post(self):
         user_data = request.get_json()
@@ -32,7 +32,7 @@ class UsersResource(Resource):
     def create_user(self, username):
         url = ""
         data = {'username': username}
-        response = requests.post(url, json=data)
+        response = request.post(url, json=data)
         if response.status_code == 201:
             print(f"User '{username}' created successfully!")
         else:
