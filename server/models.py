@@ -7,7 +7,7 @@ from config import db
 db = SQLAlchemy()
 
 #users table: ability to sell , guitars table: price (nullable) or boolean that indicates meant for sale
-class User(db.Model, SerializerMixin):
+class Users(db.Model, SerializerMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Varchar(50), nullable=False)
@@ -31,7 +31,7 @@ class User(db.Model, SerializerMixin):
     
     
 
-class Guitar(db.Model, SerializerMixin):
+class Guitars(db.Model, SerializerMixin):
     __tablename__ = 'guitars'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=True)
@@ -58,59 +58,7 @@ class Guitar(db.Model, SerializerMixin):
         if len(value) > 200:
             raise ValueError("Model cannot exceed 200 characters")
         return value
-    @validates('is_selling')
-    def validate_is_selling(self, key, value):
-        if value is None:
-            raise ValueError("is_selling must have a value")
-        return value
-    
-    @validates('price')
-    def validate_price(self, key, value):
-        if self.is_selling and value is None:
-            raise ValueError("Price is required when the guitar is for sale")
-        return value
-        
-                             
-    
-    # incorporate materials to correspond to categories
-    #boolean to be sold or not selling and nullable price: if false no ability to set price, if true you have access to set price
-    
-    
-    #do seller and seller guitars model make sense?
-    
-class Sellers(db.Model, SerializerMixin):
-    __tablename__  = 'sellers'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
-    username = db.Column(db.Varchar(200), db.ForeignKey('username'), nullable=False)
-    guitars_id = db.Column(db.Integer)
-    #boolean in users table to indicate seller
-    #is this guitars_id or guitar_id with foreignkey
-    serialize_rules = ('-user.sellers')
-    
-    #relationships
-    user = db.relationship('User', backref='sellers')
-    
-   # @validates username again?
-   
-    
-    
-class SellerGuitars(db.Model, SerializerMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    __tablename__ = 'seller guitars'
-    guitar_id = db.Column(db.Integer, db.ForeignKey('guitar_id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user_id', nullable=False))
-    username = db.Column(db.Varchar(200), db.ForeignKey('username'), nullable=False)
-    price = db.Column(db.Float)
-    #get rid of table?
-    
-    serialize_rules = ('-guitar.seller_guitars', 'user.seller_guitars')
-    #relationships
-    guitar = db.relationship('Guitar', backref='seller_guitars')
-    user = db.relationship('User', backref='seller_guitars')
-    
-    #@validates('username')
-    
+ 
 class UserLikes(db.Model, SerializerMixin):
     guitar_id = db.Column(db.Integer, db.ForeignKey('guitar_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
@@ -120,27 +68,17 @@ class UserLikes(db.Model, SerializerMixin):
     guitar = db.relationship('Guitar', backref='user_likes')
     user = db.relationship('User', backref='user_likes')
     
+class Bids(db.Model, SerializerMixin):
+    pass
+
+
+class Exchanges(db.Model, SerializerMixin):
+    pass 
+    
     
     
 
-    
-  class Subcategories(db.Model, SerializerMixin):
-    __tablename__ = 'subcategories'
-    id = db.Column(db.Integer, primary_key=True)
-    subcategory_name = db.Column(db.String(200))
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
-    
-    serialize_rules = ('-category.subcategories')
-    
-    #relationships
-    category = db.relationship('Categories', backref='subcategories')
-    
-    #validations
-    @validates('subcategory_name')
-    def validates_subcategory_name(self,key,value):
-        if value is not None and len(value) > 200:
-            raise ValueError("Subcategory cannot exceed 200 characters")
-        return value
+
 
 
 
