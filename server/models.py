@@ -34,10 +34,11 @@ class User(db.Model, SerializerMixin):
 class Guitar(db.Model, SerializerMixin):
     __tablename__ = 'guitars'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False)
-    is_seller = db.Column(db.Boolean, default=False, nullable=False)
-    seller_mode = db.Column(db.Boolean, default=False, nullable=False)
-    price = db.Column(db.Float, nullable=True)
+    user_id = db.Column(db.Integer, nullable=True)
+    brand = db.Column(db.String(200))
+    model = db.Column(db.String(200))
+    material = db.Column(db.String(200))
+    description = db.Column(db.String(350))
     accept_bids = db.Column(db.Boolean, default=False, nullable=False)
     accept_exchange = db.Column(db.Boolean, default=False, nullable=False)
     
@@ -48,7 +49,7 @@ class Guitar(db.Model, SerializerMixin):
      
 
     def __repr__(self):
-        return f'Guitar(id={self.id}, user_id={self.user_id}, model={self.model}, description={self.description},is_selling={self.is_selling})'
+        return f'Guitar(id={self.id}, user_id={self.user_id}, model={self.model}, description={self.description}), brand={self.brand},material={self.material},accept_bids={self.accept_bids}, accept_exchange={self.accept_exchange})'
     
     @validates('model')
     def validate_model(self,key,value):
@@ -121,28 +122,9 @@ class UserLikes(db.Model, SerializerMixin):
     
     
     
-class Categories(db.Model, SerializerMixin):
-    __tablename__ = 'categories'
-    id = db.Column(db.Integer, primary_key=True)
-    guitar_brand = db.Column(db.String(200))
-    guitar_material = db.Column(db.String(200))
-    year = db.Column(db.Integer)
-   #serialize_rules
-    serialize_rules = ('-subcategories.category')
-   #relationships
-    subcategories = db.relationship('Subcategories', backref='category')
-   
-    @validates('guitar_brand')
-    def validates_guitar_brand(self,key,value):
-       if value is not None and len(value) > 200:
-           raise ValueError("Brand cannot exceed 200 characters")
-       return value 
-    @validates('guitar_material')
-    def validates_guitar_material(self,key,value):
-       if value is not None and len(value) > 200:
-           raise ValueError("Brand cannot exceed 200 characters")
-       return value
-class Subcategories(db.Model, SerializerMixin):
+
+    
+  class Subcategories(db.Model, SerializerMixin):
     __tablename__ = 'subcategories'
     id = db.Column(db.Integer, primary_key=True)
     subcategory_name = db.Column(db.String(200))
