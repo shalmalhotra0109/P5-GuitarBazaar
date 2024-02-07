@@ -12,8 +12,7 @@ class Users(db.Model, SerializerMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Varchar(50), nullable=False)
-    is_seller = db.Column(db.Boolean, default=False, nullable=False)
-    # boolean indicated seller or not which lets toggle available or not
+    password = db.Column(db.Varchar(50), nullable=False)
     serialize_rules = "-guitars.user"
 
     guitars = db.relationship("Guitar", backref="user")
@@ -71,11 +70,32 @@ class UserLikes(db.Model, SerializerMixin):
 
 
 class Bids(db.Model, SerializerMixin):
-    pass
+    id = db.Column(db.Integer, primary_key=True)
+    guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    offer_price = db.Column(db.Float)
+
+    serialize_rules = ()
+
+    # relationships
+    guitar = db.relationship("Guitar", backref="bids")
+    user = db.relationship("User", backref="bids")
 
 
 class Exchanges(db.Model, SerializerMixin):
-    pass
+    id = db.Column(db.Integer, primary_key=True)
+    guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+    serialize_rules = ()
+
+    # relationships
+    guitar = db.relationship("Guitar", backref="exchanges")
+    user = db.relationship("User", backref="exchanges")
+    
+                        
+# needs validatiom that must be a from two different guitar( not same ID), and must be a guitar owned by a user, and must be at least one guitar from one user and another guitar from a different user
+# FRONTEND VALIDATION: checking THAT LOGGED IN user owns THAT GUITAR you can only exchange your own guitar
 
     
     

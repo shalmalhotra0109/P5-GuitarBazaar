@@ -35,6 +35,7 @@ class UserResource(Resource):
     def get(self, id):
         user = Users.query.get(id)
         return user.to_dict()
+    
 
     def delete(self, id):
         user = Users.query.get(id)
