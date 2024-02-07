@@ -54,6 +54,11 @@ with app.app_context():
             db.session.add_all([bid1, bid2])
             db.session.commit()
             
+            exchange1 = Exchanges(user1: offer= guitar1 = guitar4)
+            exchange2 = Exchanges(user4: offer=guitar4) 
+            
+            db.session.add_all([exchange1, exchange2])
+            db.session.commit()
             
 
             print("Database seeded successfully!")
