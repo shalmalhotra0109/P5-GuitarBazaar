@@ -41,12 +41,17 @@ with app.app_context():
             db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1, guitar2, guitar3, guitar4, guitar5, guitar6, guitar7])
             db.session.commit()
 
-            restaurant_pizza1 = RestaurantPizza(price=12, pizza=pizza1, restaurant=restaurant1)
-            restaurant_pizza2 = RestaurantPizza(price=18, pizza=pizza2, restaurant=restaurant1)
-            restaurant_pizza3 = RestaurantPizza(price=22, pizza=pizza1, restaurant=restaurant2)
+            # restaurant_pizza1 = RestaurantPizza(price=12, pizza=pizza1, restaurant=restaurant1)
+            # restaurant_pizza2 = RestaurantPizza(price=18, pizza=pizza2, restaurant=restaurant1)
+            # restaurant_pizza3 = RestaurantPizza(price=22, pizza=pizza1, restaurant=restaurant2)
 
-            db.session.add_all([restaurant_pizza1, restaurant_pizza2, restaurant_pizza3])
+           
+            user_likes1 = UserLikes(user1=user1, )
+            user_likes2 = UserLikes(user2=user2,)
+            
+            db.session.add_all([user_likes1, user_likes2])
             db.session.commit()
+            
 
             print("Database seeded successfully!")
         except Exception as e:
