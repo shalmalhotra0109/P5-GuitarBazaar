@@ -32,13 +32,13 @@ with app.app_context():
             guitar2 = Guitars(user_id=2, brand='Gibson',model='Billie Joe Armstrong Les Paul Junior', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Rosewood, Finish: ebony gloss')
             guitar3 = Guitars(user_id=3, brand='Fender',model='Jimmy Page Telecaster', material='Body: Solid Ash, Neck: Maple, Fingerboard: Rosewood, Finish: satin lacquer')
             guitar4 = Guitars(user_id=4, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
-            guitar5 = Guitars(user_id=5, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
-            guitar6 = Guitars(user_id=6, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
-            guitar7 = Guitars(user_id=1, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
+            guitar5 = Guitars(user_id=5, brand='Gibson',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
+            guitar6 = Guitars(user_id=6, brand='Fender',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
+            guitar7 = Guitars(user_id=7, brand='PRS',model='Private Stock Custom 24-08', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Brazilian Rosewood, Finish: high gloss nitrocellulose')
             
             
 
-            db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1, guitar2, guitar3, guitar4])
+            db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1, guitar2, guitar3, guitar4, guitar5, guitar6, guitar7])
             db.session.commit()
 
             restaurant_pizza1 = RestaurantPizza(price=12, pizza=pizza1, restaurant=restaurant1)
