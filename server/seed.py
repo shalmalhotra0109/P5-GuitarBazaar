@@ -32,8 +32,8 @@ with app.app_context():
             guitar2 = Guitars(user_id=2, brand='Gibson',model='Billie Joe Armstrong Les Paul Junior', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Rosewood, Finish: ebony gloss')
             guitar3 = Guitars(user_id=3, brand='Fender',model='Jimmy Page Telecaster', material='Body: Solid Ash, Neck: Maple, Fingerboard: Rosewood, Finish: satin lacquer')
             guitar4 = Guitars(user_id=4, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
-            guitar5 = Guitars(user_id=5, brand='Gibson',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
-            guitar6 = Guitars(user_id=6, brand='Fender',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
+            guitar5 = Guitars(user_id=5, brand='Gibson',model='Lzzy Hale Signature Explorerbird ', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Indian Rosewood, Finish: gloss nitrocellulose lacquer')
+            guitar6 = Guitars(user_id=1, brand='Fender',model='Tom Morello Soul Power Stratocaster', material='Body: Alder, Neck: Maple, Fingerboard:Rosewood, Finish: gloss')
             guitar7 = Guitars(user_id=7, brand='PRS',model='Private Stock Custom 24-08', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Brazilian Rosewood, Finish: high gloss nitrocellulose')
             
             
