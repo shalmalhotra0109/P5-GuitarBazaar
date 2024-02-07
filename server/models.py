@@ -13,15 +13,19 @@ class Users(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Varchar(50), nullable=False)
     password = db.Column(db.Varchar(50), nullable=False)
-    serialize_rules = "-guitars.user"
+    
+    serialize_rules = "-guitars.user, -user_likes.user, -bids.user, -exchanges.user"
 
     guitars = db.relationship("Guitar", backref="user")
+    user_likes = db.relationship("UserLikes", backref="user")
+    bids = db.relationship("Bids", backref="user")
+    exchanges = db.relationship("Exchanges", backref="user")
 
     def __repr__(self):
         return (
-            f"User(id={self.id}, username={self.username}, is_seller={self.is_seller})"
+            f"User(id={self.id}, username={self.username}, password={self.password})"
         )
-
+        
     @validates("username")
     def validate_username(self, key, value):
         if not value:
