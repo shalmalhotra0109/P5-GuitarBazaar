@@ -46,10 +46,13 @@ class Guitars(db.Model, SerializerMixin):
     accept_bids = db.Column(db.Boolean, default=False, nullable=False)
     accept_exchange = db.Column(db.Boolean, default=False, nullable=False)
 
-    serialize_rules = -"user.guitars"
+    serialize_rules = "-user.guitars, -user.guitars.user_likes, -user.guitars.bids, -user.guitars.exchanges"
 
     # relationships
     user = db.relationship("User", backref="guitars")
+    user_likes = db.relationship("UserLikes", backref="guitar")
+    bids = db.relationship("Bids", backref="guitar")
+    exchanges = db.relationship("Exchanges", backref="guitar")
 
     def __repr__(self):
         return f"Guitar(id={self.id}, user_id={self.user_id}, model={self.model}, description={self.description}), brand={self.brand},material={self.material},accept_bids={self.accept_bids}, accept_exchange={self.accept_exchange})"
@@ -79,7 +82,7 @@ class Bids(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     offer_price = db.Column(db.Float)
 
-    serialize_rules = ()
+    serialize_rules = ("-guitar.bids", "-user.bids")
 
     # relationships
     guitar = db.relationship("Guitar", backref="bids")
@@ -91,7 +94,7 @@ class Exchanges(db.Model, SerializerMixin):
     guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    serialize_rules = ()
+    serialize_rules = ("-guitar.exchanges", "-user.exchanges")
 
     # relationships
     guitar = db.relationship("Guitar", backref="exchanges")
