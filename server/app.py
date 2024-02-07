@@ -10,52 +10,51 @@ app = Flask(__name__)
 api = Api(app)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'your_database_uri_here'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = "your_database_uri_here"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 CORS(app)
 # create a Migrate object to manage schema modifications
 migrate = Migrate(app, db)
 
 
-
 class UsersResource(Resource):
     def get(self):
         users = [u.to_dict() for u in Users.query.all()]
         return users
+
     def post(self):
         user_data = request.get_json()
         user = Users(**user_data)
         db.session.add(user)
         db.session.commit()
         return user.to_dict(), 201
-    def create_user(self, username):
-        url = ""
-        data = {'username': username}
-        response = request.post(url, json=data)
-        if response.status_code == 201:
-            print(f"User '{username}' created successfully!")
-        else:
-            print(f"Failed to create user '{username}'")
+
+
 class UserResource(Resource):
     def get(self, id):
         user = Users.query.get(id)
         return user.to_dict()
-    
+
     def delete(self, id):
         user = Users.query.get(id)
         if user:
             db.session.delete(user)
             db.session.commit()
-            return '', 204
+            return "", 204
         else:
-            return {'error': 'User not found'}, 404
+            return {"error": "User not found"}, 404
+
+
 class GuitarsResource(Resource):
     def get(self):
         guitars = [g.to_dict() for g in Guitars.query.all()]
         return guitars
+
+
 class GuitarResource(Resource):
-    pass 
+    pass
+
 
 class UserLikesResource(Resource):
     def get(self):
@@ -69,31 +68,36 @@ class UserLikesResource(Resource):
         db.session.commit()
         return user_likes.to_dict(), 201
 
+
 class UserLikeResource(Resource):
     def get(self, id):
         user_likes = UserLikes.query.get(id)
         return user_likes.to_dict()
+    
+    def post(self, id):
+        user_data = request.get_json()
+        user_likes = UserLikes(**user_data)
+        db.session.add(user_likes)
+        db.session.commit()
+        return user_likes.to_dict(), 201
 
     def delete(self, id):
         user_likes = UserLikes.query.get(id)
         if user_likes:
             db.session.delete(user_likes)
             db.session.commit()
-            return '', 204
+            return "", 204
         else:
-            return {'error': 'UserLikes not found'}, 404
+            return {"error": "UserLikes not found"}, 404
 
 
 # Flask routes endpoints
 
-api.add_resource(GuitarsResource, '/guitars')
-api.add_resource(GuitarResource, '/guitar/<id>')
+api.add_resource(GuitarsResource, "/guitars")
+api.add_resource(GuitarResource, "/guitar/<id>")
 
 
-
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
 
     
@@ -123,6 +127,3 @@ if __name__ == '__main__':
 
 
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
