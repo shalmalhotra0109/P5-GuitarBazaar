@@ -29,7 +29,7 @@ class UsersResource(Resource):
         db.session.commit()
         return user.to_dict(), 201
     def create_user(self, username):
-        url =   # Update with API URL
+        url = ""
         data = {'username': username}
         response = requests.post(url, json=data)
         if response.status_code == 201:
