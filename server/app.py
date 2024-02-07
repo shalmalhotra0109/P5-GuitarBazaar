@@ -6,9 +6,10 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 
-
-
 app = Flask(__name__)
+api = Api(app)
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'your_database_uri_here'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -53,6 +54,8 @@ class GuitarsResource(Resource):
     def get(self):
         guitars = [g.to_dict() for g in Guitar.query.all()]
         return guitars
+class GuitarResource(Resource):
+    pass 
 
 class UserLikesResource(Resource):
     def get(self):
@@ -83,7 +86,8 @@ class UserLikeResource(Resource):
 
 # Flask routes endpoints
 
-
+api.add_resource(GuitarsResource, '/guitars')
+api.add_resource(GuitarResource, '/guitar/<id>')
 
 
 
