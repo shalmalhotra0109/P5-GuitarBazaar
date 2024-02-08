@@ -28,17 +28,18 @@ with app.app_context():
     # description = db.Column(db.String(350))
     # accept_bids = db.Column(db.Boolean, default=False, nullable=False)
     # accept_exchange
-            guitar1 = Guitars(user_id=1, brand='Squier',model='Paranormal Jazzmaster XII', material='Body: Poplar, Neck: Maple, Fingerboard: Laurel, Finish: gloss polyurethane')
-            guitar2 = Guitars(user_id=2, brand='Gibson',model='Billie Joe Armstrong Les Paul Junior', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Rosewood, Finish: ebony gloss')
-            guitar3 = Guitars(user_id=3, brand='Fender',model='Jimmy Page Telecaster', material='Body: Solid Ash, Neck: Maple, Fingerboard: Rosewood, Finish: satin lacquer')
-            guitar4 = Guitars(user_id=4, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer')
-            guitar5 = Guitars(user_id=5, brand='Gibson',model='Lzzy Hale Signature Explorerbird ', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Indian Rosewood, Finish: gloss nitrocellulose lacquer')
-            guitar6 = Guitars(user_id=1, brand='Fender',model='Tom Morello Soul Power Stratocaster', material='Body: Alder, Neck: Maple, Fingerboard:Rosewood, Finish: gloss')
-            guitar7 = Guitars(user_id=7, brand='PRS',model='Private Stock Custom 24-08', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Brazilian Rosewood, Finish: high gloss nitrocellulose')
+            guitar1 = Guitars(user_id=1, brand='Squier',model='Paranormal Jazzmaster XII', material='Body: Poplar, Neck: Maple, Fingerboard: Laurel, Finish: gloss polyurethane', description= 'The Squier Paranormal Jazzmaster XII gives guitarists 12 strings of sonic possibility. This classic offset electric guitar features dual Fender-Designed alnico single-coil Jazzmaster pickups that provide a rich tone with bright highs and robust lows', accept_bids= True, accept_exchange=True)
+            guitar2 = Guitars(user_id=2, brand='Gibson',model='Billie Joe Armstrong Les Paul Junior', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Rosewood, Finish: ebony gloss', description='exceptional guitar to rock out on, whether you play rock or punk. Designed in collaboration with Green Day’s legendary guitarist, it has everything you need for great tone with no frills to get in your way, including a mahogany neck with a Billie Joe Armstrong SlimTaper profile', accept_bids= True, accept_exchange=True)
+            guitar3 = Guitars(user_id=3, brand='Fender',model='Jimmy Page Telecaster', material='Body: Solid Ash, Neck: Maple, Fingerboard: Rosewood, Finish: satin lacquer', description='meticulous recreation of his legendary instrument', accept_bids= True, accept_exchange=True)
+            guitar4 = Guitars(user_id=4, brand='PRS',model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer', description='this stunning guitar is graced with a 24-fret fingerboard of coveted Brazilian rosewood from their legendary wood collection', accept_bids=True, accept_exchange=False)
+            guitar5 = Guitars(user_id=5, brand='Gibson',model='Lzzy Hale Signature Explorerbird ', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Indian Rosewood, Finish: gloss nitrocellulose lacquer', description='The Explorerbird combines the classic Explorer body shape with a Firebird headstock for enhanced tuning stability and a one-of-a-kind look', accept_bids=True, accept_exchange=True)
+            guitar6 = Guitars(user_id=1, brand='Fender',model='Tom Morello Soul Power Stratocaster', material='Body: Alder, Neck: Maple, Fingerboard:Rosewood, Finish: gloss', description='TOM MORELLO REPLICA.THAT IS ALL', accept_bids=True, accept_exchange=False)
+            guitar7 = Guitars(user_id=7, brand='PRS',model='Private Stock Custom 24-08', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Brazilian Rosewood, Finish: high gloss nitrocellulose', description= 'great sound quality, a big fan of PRS and their ability to create uniqueness. As with any PRS guitar, the fit, finish and playability are flawless', accept_bids=True, accept_exchange=True)
+            guitar8 = Guitars(user_id=6, brand='Charvel', model='Charvel Pro-Mod DK24 Black Burst', material='Body:Alder, Neck: Caramelized Maple, Finish: gloss', description= 'this brazen instrument is for the progressive guitarist searching for the ultimate in tonal versatility. Featuring a sculpted shredder cut heel for effortless upper fret access, the alder Dinky body is topped with an elegant quilt maple top in captivating finishes', accept_bids=True, accept_exchange=True)
             
             
 
-            db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1, guitar2, guitar3, guitar4, guitar5, guitar6, guitar7])
+            db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1, guitar2, guitar3, guitar4, guitar5, guitar6, guitar7, guitar8])
             db.session.commit()
 
 
