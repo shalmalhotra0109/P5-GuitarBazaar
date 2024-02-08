@@ -1,5 +1,5 @@
 from flask import Flask, request, make_response
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
 from models import Users, Guitars, Bids, Exchanges, UserLikes, db
 from flask_migrate import Migrate
@@ -17,6 +17,35 @@ CORS(app)
 # create a Migrate object to manage schema modifications
 migrate = Migrate(app, db)
 
+user_parser = reqparse.RequestParser()
+user_parser.add_argument('username', type=str, required=True, help='Username is required')
+user_parser.add_argument('password', type=str, required=True, help='Password is required')
+
+# Parser for creating or updating a guitar
+guitar_parser = reqparse.RequestParser()
+guitar_parser.add_argument('user_id', type=int, required=True, help='User ID is required')
+guitar_parser.add_argument('brand', type=str, required=True, help='Brand is required')
+guitar_parser.add_argument('model', type=str, required=True, help='Model is required')
+guitar_parser.add_argument('material', type=str, required=True, help='Material is required')
+guitar_parser.add_argument('description', type=str, required=True, help='Description is required')
+guitar_parser.add_argument('accept_bids', type=bool, required=True, help='Accept bids is required')
+guitar_parser.add_argument('accept_exchange', type=bool, required=True, help='Accept exchange is required')
+
+# Parser for creating or updating a user like
+user_like_parser = reqparse.RequestParser()
+user_like_parser.add_argument('guitar_id', type=int, required=True, help='Guitar ID is required')
+user_like_parser.add_argument('user_id', type=int, required=True, help='User ID is required')
+
+# Parser for creating or updating a bid
+bid_parser = reqparse.RequestParser()
+bid_parser.add_argument('guitar_id', type=int, required=True, help='Guitar ID is required')
+bid_parser.add_argument('user_id', type=int, required=True, help='User ID is required')
+bid_parser.add_argument('offer_price', type=float, required=True, help='Offer price is required')
+
+# Parser for creating or updating an exchange
+exchange_parser = reqparse.RequestParser()
+exchange_parser.add_argument('guitar_id', type=int, required=True, help='Guitar ID is required')
+exchange_parser.add_argument('user_id', type=int, required=True, help='User ID is required')
 
 class UsersResource(Resource):
     def get(self):
