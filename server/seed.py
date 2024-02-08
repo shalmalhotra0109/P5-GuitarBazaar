@@ -6,7 +6,7 @@ app = create_app()
 with app.app_context():
     def seed():
         try:
-            # Define users
+            # Define users login
             user1 = Users(id=1, username='shalwuzhere', password='shal123')
             user2 = Users(id=2, username='peyton319', password='peyton123')
             user3 = Users(id=3, username='codycoggins', password='cody123')
@@ -38,13 +38,15 @@ with app.app_context():
             # Define bids
             bid1 = Bids(guitar_id=guitar7.id, user_id=user1.id, offer_price=950)
             bid2 = Bids(guitar_id=guitar1.id, user_id=user6.id, offer_price=2000)
+            bid3 = Bids(guitar_id=guitar6.id, user_id=user5.id, offer_price=1500)
+            bid4 = Bids(guitar_id=guitar8.id, user_id=user3.id, offer_price=1100)
 
-            db.session.add_all([bid1, bid2])
+            db.session.add_all([bid1, bid2, bid3, bid4])
             db.session.commit()
 
             # Define exchanges
             exchange1 = Exchanges(guitar_id=guitar1.id, user_id=user4.id, offer_guitar_id=guitar4.id)
-            exchange2 = Exchanges(guitar_id=guitar4.id, user_id=user4.id, offer_guitar_id=guitar5.id)
+            exchange2 = Exchanges(guitar_id=guitar4.id, user_id=user6.id, offer_guitar_id=guitar8.id)
 
             db.session.add_all([exchange1, exchange2])
             db.session.commit()
