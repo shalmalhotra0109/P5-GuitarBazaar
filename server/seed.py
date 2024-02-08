@@ -24,8 +24,10 @@ with app.app_context():
             guitar6 = Guitars(user_id=1, brand='Fender', model='Tom Morello Soul Power Stratocaster', material='Body: Alder, Neck: Maple, Fingerboard: Rosewood, Finish: gloss', description='TOM MORELLO REPLICA. THAT IS ALL', accept_bids=True, accept_exchange=False)
             guitar7 = Guitars(user_id=7, brand='PRS', model='Private Stock Custom 24-08', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Brazilian Rosewood, Finish: high gloss nitrocellulose', description='great sound quality, a big fan of PRS and their ability to create uniqueness. As with any PRS guitar, the fit, finish and playability are flawless', accept_bids=True, accept_exchange=True)
             guitar8 = Guitars(user_id=6, brand='Charvel', model='Charvel Pro-Mod DK24 Black Burst', material='Body: Alder, Neck: Caramelized Maple, Finish: gloss', description='this brazen instrument is for the progressive guitarist searching for the ultimate in tonal versatility. Featuring a sculpted shredder cut heel for effortless upper fret access, the alder Dinky body is topped with an elegant quilt maple top in captivating finishes', accept_bids=True, accept_exchange=True)
+            guitar9 = Guitars(user_id=4, brand='Gretsch', model='Gretsch G5622T Electromatic Center Block Double-Cut', material='Body: Maple, Neck: Maple, Finish: gloss', description='smooth pitch bends to create emotive solos and adorn rhythms', accept_bids=True, accept_exchange=False)
+            guitar10 = Guitars(user_id=2, brand='Ibanez', model='GRX70QA', material='Body:Poplar, Neck: Maple, Finish: gloss', description='tons of tone and playing options to play practically any style,from hard rock to country', accept_bids=True, accept_exchange=True)
 
-            db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1, guitar2, guitar3, guitar4, guitar5, guitar6, guitar7, guitar8])
+            db.session.add_all([user1, user2, user3, user4, user5, user6, user7, guitar1, guitar2, guitar3, guitar4, guitar5, guitar6, guitar7, guitar8,guitar9,guitar10])
             db.session.commit()
 
             # Define user likes
