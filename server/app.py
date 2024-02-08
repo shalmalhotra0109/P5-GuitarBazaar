@@ -47,23 +47,24 @@ exchange_parser = reqparse.RequestParser()
 exchange_parser.add_argument('guitar_id', type=int, required=True, help='Guitar ID is required')
 exchange_parser.add_argument('user_id', type=int, required=True, help='User ID is required')
 
+# To get all users
 class UsersResource(Resource):
     def get(self):
         users = [u.to_dict() for u in Users.query.all()]
         return users
-
+# Create a new User
     def post(self):
         user_data = request.get_json()
         user = Users(**user_data)
         db.session.add(user)
         db.session.commit()
         return user.to_dict(), 201
-
+# get a user
 class UserResource(Resource):
     def get(self, id):
         user = Users.query.get(id)
         return user.to_dict()
-
+# delete a user
     def delete(self, id):
         user = Users.query.get(id)
         if user:
@@ -72,27 +73,51 @@ class UserResource(Resource):
             return "", 204
         else:
             return {"error": "User not found"}, 404
-
+# get all guitars
 class GuitarsResource(Resource):
     def get(self):
         guitars = [g.to_dict() for g in Guitars.query.all()]
         return guitars
 
-class GuitarResource(Resource):
-    pass
+def post(self):
+        data = guitar_parser.parse_args()
+        guitar = Guitars(**data)
+        db.session.add(guitar)
+        db.session.commit()
+        return jsonify(guitar.to_dict()), 201
 
+class GuitarResource(Resource):
+    def get(self, id):
+        guitar = Guitars.query.get_or_404(id)
+        return jsonify(guitar.to_dict())
+
+    def delete(self, id):
+        guitar = Guitars.query.get_or_404(id)
+        db.session.delete(guitar)
+        db.session.commit()
+        return '', 204
+
+    def put(self, id):
+        guitar = Guitars.query.get_or_404(id)
+        data = guitar_parser.parse_args()
+        for key, value in data.items():
+            setattr(guitar, key, value)
+        db.session.commit()
+        return jsonify(guitar.to_dict())
+
+# get all user likes
 class UserLikesResource(Resource):
     def get(self):
         user_likes = [ul.to_dict() for ul in UserLikes.query.all()]
         return user_likes
-
+# new user like
     def post(self):
         user_likes_data = request.get_json()
         user_likes = UserLikes(**user_likes_data)
         db.session.add(user_likes)
         db.session.commit()
         return user_likes.to_dict(), 201
-
+# get user like
 class UserLikeResource(Resource):
     def get(self, id):
         user_likes = UserLikes.query.get(id)
@@ -104,7 +129,7 @@ class UserLikeResource(Resource):
         db.session.add(user_likes)
         db.session.commit()
         return user_likes.to_dict(), 201
-
+# delete a like
     def delete(self, id):
         user_likes = UserLikes.query.get(id)
         if user_likes:
@@ -113,23 +138,24 @@ class UserLikeResource(Resource):
             return "", 204
         else:
             return {"error": "UserLikes not found"}, 404
+# all bids
 class BidsResource(Resource):
     def get(self):
         bids = [b.to_dict() for b in Bids.query.all()]
         return bids
-
+# new bid
     def post(self):
         bid_data = request.get_json()
         bid = Bids(**bid_data)
         db.session.add(bid)
         db.session.commit()
         return bid.to_dict(), 201
-
+# get bid
 class BidResource(Resource):
     def get(self, id):
         bid = Bids.query.get(id)
         return bid.to_dict()
-
+# delete bid
     def delete(self, id):
         bid = Bids.query.get(id)
         if bid:
@@ -138,24 +164,24 @@ class BidResource(Resource):
             return "", 204
         else:
             return {"error": "Bid not found"}, 404
-
+# get all exchanges
 class ExchangesResource(Resource):
     def get(self):
         exchanges = [e.to_dict() for e in Exchanges.query.all()]
         return exchanges
-
+# create new exchange
     def post(self):
         exchange_data = request.get_json()
         exchange = Exchanges(**exchange_data)
         db.session.add(exchange)
         db.session.commit()
         return exchange.to_dict(), 201
-
+# get exchange
 class ExchangeResource(Resource):
     def get(self, id):
         exchange = Exchanges.query.get(id)
         return exchange.to_dict()
-
+# delete exchange
     def delete(self, id):
         exchange = Exchanges.query.get(id)
         if exchange:
