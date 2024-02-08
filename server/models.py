@@ -30,8 +30,15 @@ class Users(db.Model, SerializerMixin):
     def validate_username(self, key, value):
         if not value:
             raise ValueError("username is Invalid")
-        if len(value) > 20:
-            raise ValueError("Username cannot exceed 20 characters")
+        if len(value) > 50:
+            raise ValueError("Username cannot exceed 50 characters")
+        return value
+    @validates("password")
+    def validate_password(self, key, value):
+        if not value:
+            raise ValueError("password is Invalid")
+        if len(value) > 50:
+            raise ValueError("Password cannot exceed 50 characters")
         return value
 
 
@@ -57,12 +64,33 @@ class Guitars(db.Model, SerializerMixin):
     def __repr__(self):
         return f"Guitar(id={self.id}, user_id={self.user_id}, model={self.model}, description={self.description}), brand={self.brand},material={self.material},accept_bids={self.accept_bids}, accept_exchange={self.accept_exchange})"
 
+    @validates("brand")
+    def validate_brand(self, key, value):
+        if not value:
+            raise ValueError("Brand cannot be empty")
+        if len(value) > 200:
+            raise ValueError("Brand cannot exceed 200 characters")
+        return value
     @validates("model")
     def validate_model(self, key, value):
         if not value:
             raise ValueError("Model cannot be empty")
         if len(value) > 200:
             raise ValueError("Model cannot exceed 200 characters")
+        return value
+    @validates("material")
+    def validate_material(self, key, value):
+        if not value:
+            raise ValueError("Material cannot be empty")
+        if len(value) > 200:
+            raise ValueError("Material cannot exceed 200 characters")
+        return value
+    @validates("description")
+    def validate_description(self, key, value):
+        if not value:
+            raise ValueError("Description cannot be empty")
+        if len(value) > 200:
+            raise ValueError("Description cannot exceed 350 characters")
         return value
 
 
@@ -87,6 +115,12 @@ class Bids(db.Model, SerializerMixin):
     # relationships
     guitar = db.relationship("Guitar", backref="bids")
     user = db.relationship("User", backref="bids")
+    
+    @validates("offer_price")
+    def validate_offer_price(self, key, value):
+        if not isinstance(value, float):
+            raise ValueError("Offer price must be a float")
+        return value
 
 
 class Exchanges(db.Model, SerializerMixin):
@@ -99,7 +133,12 @@ class Exchanges(db.Model, SerializerMixin):
     # relationships
     guitar = db.relationship("Guitar", backref="exchanges")
     user = db.relationship("User", backref="exchanges")
-    
+    @validates("offer_guitar")
+    def validate_offer_guitar(self, key, value):
+        if not isinstance(value, Guitars):
+            raise ValueError("Offered item must be a guitar")
+        return value
+    # go over this validation  because should it be must be a guitar in YOUR inventory?
                         
 # needs validatiom that must be a from two different guitar( not same ID), and must be a guitar owned by a user, and must be at least one guitar from one user and another guitar from a different user
 # FRONTEND VALIDATION: checking THAT LOGGED IN user owns THAT GUITAR you can only exchange your own guitar
