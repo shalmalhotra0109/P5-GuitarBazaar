@@ -8,7 +8,19 @@ from flask import Flask, request, jsonify
 from config import db
 
 # Rest of your code...
+db = SQLAlchemy()
 
+def create_app():
+    app = Flask(__name__)
+
+    # Configuration and other setup for your Flask app
+    
+    # Initialize extensions
+    db.init_app(app)
+
+    # Register blueprints, routes, etc.
+
+    return app
 
 app = Flask(__name__)
 api = Api(app)
