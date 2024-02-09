@@ -11,8 +11,8 @@ db = SQLAlchemy()
 class Users(db.Model, SerializerMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Varchar(50), nullable=False)
-    password = db.Column(db.Varchar(50), nullable=False)
+    username = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(50), nullable=False)
     
     serialize_rules = "-guitars.user, -user_likes.user, -bids.user, -exchanges.user"
 

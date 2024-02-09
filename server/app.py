@@ -5,13 +5,17 @@ from models import Users, Guitars, Bids, Exchanges, UserLikes, db
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask import Flask, request, jsonify
+from config import db
+
+# Rest of your code...
+
 
 app = Flask(__name__)
 api = Api(app)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "your_database_uri_here"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 # create a Migrate object to manage schema modifications
