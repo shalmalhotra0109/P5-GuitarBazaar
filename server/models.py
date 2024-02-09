@@ -26,6 +26,14 @@ class Users(db.Model, SerializerMixin):
     user_likes = db.relationship("UserLikes", back_populates="users")
     bids = db.relationship("Bids", back_populates="users")
     exchanges = db.relationship("Exchanges", back_populates="users")
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'password': self.password,    
+            
+        }
 
     def __repr__(self):
         return (
@@ -142,8 +150,18 @@ class UserLikes(db.Model, SerializerMixin):
     # relationships
     guitars = db.relationship("Guitars", back_populates="user_likes")
     users = db.relationship("Users", back_populates="user_likes")
+    
+    
 
-
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'guitar_id': self.guitar_id,
+                 
+        }
+    def __repr__(self):
+        return f"UserLike(id={self.id}, user_id={self.user_id}, guitar_id={self.guitar_id})"
 class Bids(db.Model, SerializerMixin):
     __tablename__ = "bids"
     id = db.Column(db.Integer, primary_key=True)
@@ -157,6 +175,16 @@ class Bids(db.Model, SerializerMixin):
     guitars = db.relationship("Guitars", back_populates="bids")
     users = db.relationship("Users", back_populates="bids")
     
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'guitar_id': self.guitar_id,
+            'user_id': self.user_id,
+            'offer_price': self.offer_price,
+            
+        }
+    def __repr__(self):
+        return f"Bids(id={self.id}, user_id={self.user_id}, guitar_id={self.guitar_id}, offer_price={self.offer_price})"
     @validates("offer_price")
     def validate_offer_price(self, key, value):
         if not isinstance(value, float):
