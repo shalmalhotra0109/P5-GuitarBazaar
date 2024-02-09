@@ -12,7 +12,8 @@ Browse a selection of guitars across all different models, brands, and hardware 
 6. Users can create, modify, and delete any guitars in their own personal collection for display
 
 # Database Schema 
-<img width="855" alt="Screenshot 2024-01-30 at 11 47 38 AM" src="https://github.com/shalmalhotra0109/P5-GuitarBazaar/assets/145045759/3e8fc3b2-3852-4342-96a4-237c9f826b24">
+<img width="676" alt="Screenshot 2024-02-09 at 9 54 51 AM" src="https://github.com/shalmalhotra0109/P5-GuitarBazaar/assets/145045759/11be94c5-eca5-4992-887b-037f3c8081f2">
+
 
 # React Component Tree Diagram
 <img width="1213" alt="Screenshot 2024-01-31 at 10 40 49 AM" src="https://github.com/shalmalhotra0109/P5-GuitarBazaar/assets/145045759/a4ffc58a-d37e-470c-b2bb-37dd0ae012ad">
