@@ -67,6 +67,17 @@ class Exchanges(db.Model, SerializerMixin):
     owned_guitar = db.relationship("Guitars", back_populates="owned_exchanges", foreign_keys=[owned_guitar_id])
     offer_guitar = db.relationship("Guitars", back_populates="offer_exchanges", foreign_keys=[offer_guitar_id])
     users = db.relationship("Users", back_populates="exchanges")
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'owned_guitar_id': self.owned_guitar_id,
+            'user_id': self.user_id,
+            'offer_guitar_id': self.offer_guitar_id,
+            
+        }
+    def __repr__(self):
+        return f"Exchanges(id={self.id}, owned_guitar_id={self.owned_guitar_id}, user_id={self.user_id}, offer_guitar_id={self.offer_guitar_id})"
     @validates("offer_guitar")
     def validate_offer_guitar(self, key, value):
         if not isinstance(value, Guitars):
