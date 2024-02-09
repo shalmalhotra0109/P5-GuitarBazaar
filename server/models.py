@@ -95,8 +95,8 @@ class Guitars(db.Model, SerializerMixin):
 
 
 class UserLikes(db.Model, SerializerMixin):
-    guitar_id = db.Column(db.Integer, db.ForeignKey("guitar_id"), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("user_id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    guitar_id = db.Column(db.Integer, db.ForeignKey('guitars.id'), primary_key=True)
 
     serialize_rules = ("-guitar.user_likes", "user.user_likes")
     # relationships
