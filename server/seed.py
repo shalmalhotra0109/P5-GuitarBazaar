@@ -1,7 +1,6 @@
-from app import create_app
 from models import db, Users, Guitars, UserLikes, Bids, Exchanges
+from app import app
 
-app = create_app()
 
 with app.app_context():
     def seed():
@@ -17,7 +16,7 @@ with app.app_context():
 
             # Define guitars
             guitar1 = Guitars(user_id=1, brand='Squier', model='Paranormal Jazzmaster XII', material='Body: Poplar, Neck: Maple, Fingerboard: Laurel, Finish: gloss polyurethane', description='The Squier Paranormal Jazzmaster XII gives guitarists 12 strings of sonic possibility. This classic offset electric guitar features dual Fender-Designed alnico single-coil Jazzmaster pickups that provide a rich tone with bright highs and robust lows', accept_bids=True, accept_exchange=True)
-            guitar2 = Guitars(user_id=2, brand='Gibson', model='Billie Joe Armstrong Les Paul Junior', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Rosewood, Finish: ebony gloss', description='exceptional guitar to rock out on, whether you play rock or punk. Designed in collaboration with Green Day’s legendary guitarist, it has everything you need for great tone with no frills to get in your way, including a mahogany neck with a Billie Joe Armstrong SlimTaper profile', accept_bids=True, accept_exchange=True)
+            guitar2 = Guitars(user_id=2, brand='Gibson', model='Billie Joe Armstrong Les Paul Junior', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Rosewood, Finish: ebony gloss', description='exceptional guitar to rock out on, whether you play rock or punk. Designed with the legendary guitarist, it has everything you need for great tone, and includes a mahogany neck with a Billie Joe Armstrong SlimTaper profile', accept_bids=True, accept_exchange=True)
             guitar3 = Guitars(user_id=3, brand='Fender', model='Jimmy Page Telecaster', material='Body: Solid Ash, Neck: Maple, Fingerboard: Rosewood, Finish: satin lacquer', description='meticulous recreation of his legendary instrument', accept_bids=True, accept_exchange=True)
             guitar4 = Guitars(user_id=4, brand='PRS', model='Private Stock Carlos Santana Crossroads edition', material='Body: Mahogany, Neck: Maple, Fingerboard: Brazilian Rosewood, Finish: gloss nitrocellulose lacquer', description='this stunning guitar is graced with a 24-fret fingerboard of coveted Brazilian rosewood from their legendary wood collection', accept_bids=True, accept_exchange=False)
             guitar5 = Guitars(user_id=5, brand='Gibson', model='Lzzy Hale Signature Explorerbird', material='Body: Mahogany, Neck: Mahogany, Fingerboard: Indian Rosewood, Finish: gloss nitrocellulose lacquer', description='The Explorerbird combines the classic Explorer body shape with a Firebird headstock for enhanced tuning stability and a one-of-a-kind look', accept_bids=True, accept_exchange=True)
@@ -38,17 +37,18 @@ with app.app_context():
             db.session.commit()
 
             # Define bids
-            bid1 = Bids(guitar_id=guitar7.id, user_id=user1.id, offer_price=950)
-            bid2 = Bids(guitar_id=guitar1.id, user_id=user6.id, offer_price=2000)
-            bid3 = Bids(guitar_id=guitar6.id, user_id=user5.id, offer_price=1500)
-            bid4 = Bids(guitar_id=guitar8.id, user_id=user3.id, offer_price=1100)
+            bid1 = Bids(guitar_id=guitar7.id, user_id=user1.id, offer_price=950.00)
+            bid2 = Bids(guitar_id=guitar1.id, user_id=user6.id, offer_price=2000.00)
+            bid3 = Bids(guitar_id=guitar6.id, user_id=user5.id, offer_price=1500.00)
+            bid4 = Bids(guitar_id=guitar8.id, user_id=user3.id, offer_price=1100.00)
 
             db.session.add_all([bid1, bid2, bid3, bid4])
             db.session.commit()
 
             # Define exchanges
-            exchange1 = Exchanges(guitar_id=guitar1.id, user_id=user4.id, offer_guitar_id=guitar4.id)
-            exchange2 = Exchanges(guitar_id=guitar4.id, user_id=user6.id, offer_guitar_id=guitar8.id)
+            # do not need to include user_id here
+            exchange1 = Exchanges(owned_guitar_id=guitar1.id, user_id=user4.id, offer_guitar_id=guitar4.id)
+            exchange2 = Exchanges(owned_guitar_id=guitar4.id, user_id=user6.id, offer_guitar_id=guitar8.id)
 
             db.session.add_all([exchange1, exchange2])
             db.session.commit()

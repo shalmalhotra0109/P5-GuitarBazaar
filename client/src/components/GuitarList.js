@@ -5,7 +5,7 @@ const GuitarList = () => {
 
   useEffect(() => {
     // Fetch guitars from the server when the component mounts
-    fetch(`${serverURL}/guitars`)
+    fetch(`/guitars`)
       .then((response) => response.json())
       .then((data) => setGuitars(data))
       .catch((error) => console.error('Error fetching guitars:', error));

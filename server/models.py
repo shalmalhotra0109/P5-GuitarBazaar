@@ -1,11 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
+from sqlalchemy import MetaData
 
 
-from config import db
 
-db = SQLAlchemy()
+metadata = MetaData(naming_convention={
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+})
+
+db = SQLAlchemy(metadata=metadata)
+
+
 
 # users table: ability to sell , guitars table: price (nullable) or boolean that indicates meant for sale
 class Users(db.Model, SerializerMixin):
@@ -16,10 +22,10 @@ class Users(db.Model, SerializerMixin):
     
     serialize_rules = "-guitars.user, -user_likes.user, -bids.user, -exchanges.user"
 
-    guitars = db.relationship("Guitar", backref="user")
-    user_likes = db.relationship("UserLikes", backref="user")
-    bids = db.relationship("Bids", backref="user")
-    exchanges = db.relationship("Exchanges", backref="user")
+    guitars = db.relationship("Guitars", back_populates="users")
+    user_likes = db.relationship("UserLikes", back_populates="users")
+    bids = db.relationship("Bids", back_populates="users")
+    exchanges = db.relationship("Exchanges", back_populates="users")
 
     def __repr__(self):
         return (
@@ -40,27 +46,59 @@ class Users(db.Model, SerializerMixin):
         if len(value) > 50:
             raise ValueError("Password cannot exceed 50 characters")
         return value
+class Exchanges(db.Model, SerializerMixin):
+    __tablename__ = "exchanges"
+    id = db.Column(db.Integer, primary_key=True)
+    owned_guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    offer_guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
 
+    serialize_rules = ("-guitar.exchanges", "-user.exchanges")
+
+    # relationships
+    owned_guitar = db.relationship("Guitars", back_populates="owned_exchanges", foreign_keys=[owned_guitar_id])
+    offer_guitar = db.relationship("Guitars", back_populates="offer_exchanges", foreign_keys=[offer_guitar_id])
+    users = db.relationship("Users", back_populates="exchanges")
+    @validates("offer_guitar")
+    def validate_offer_guitar(self, key, value):
+        if not isinstance(value, Guitars):
+            raise ValueError("Offered item must be a guitar")
+        return value
 
 class Guitars(db.Model, SerializerMixin):
     __tablename__ = "guitars"
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     brand = db.Column(db.String(200))
     model = db.Column(db.String(200))
     material = db.Column(db.String(200))
-    description = db.Column(db.String(350))
+    description = db.Column(db.String(500))
     accept_bids = db.Column(db.Boolean, default=False, nullable=False)
     accept_exchange = db.Column(db.Boolean, default=False, nullable=False)
+   
 
     serialize_rules = "-user.guitars, -user.guitars.user_likes, -user.guitars.bids, -user.guitars.exchanges"
 
     # relationships
-    user = db.relationship("User", backref="guitars")
-    user_likes = db.relationship("UserLikes", backref="guitar")
-    bids = db.relationship("Bids", backref="guitar")
-    exchanges = db.relationship("Exchanges", backref="guitar")
+    users = db.relationship("Users", back_populates="guitars")
+    user_likes = db.relationship("UserLikes", back_populates="guitars")
+    bids = db.relationship("Bids", back_populates="guitars")
+    # exchanges = db.relationship("Exchanges", back_populates="guitars")
+    offer_exchanges = db.relationship("Exchanges", back_populates="offer_guitar", foreign_keys="[Exchanges.offer_guitar_id]")
+    owned_exchanges = db.relationship("Exchanges", back_populates="owned_guitar", foreign_keys="[Exchanges.owned_guitar_id]")
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'brand': self.brand,
+            'model': self.model,
+            'material': self.material,
+            'description': self.description,
+            'accept_bids': self.accept_bids,
+            'accept_exchange': self.accept_exchange,
+            
+        }
     def __repr__(self):
         return f"Guitar(id={self.id}, user_id={self.user_id}, model={self.model}, description={self.description}), brand={self.brand},material={self.material},accept_bids={self.accept_bids}, accept_exchange={self.accept_exchange})"
 
@@ -89,22 +127,25 @@ class Guitars(db.Model, SerializerMixin):
     def validate_description(self, key, value):
         if not value:
             raise ValueError("Description cannot be empty")
-        if len(value) > 200:
-            raise ValueError("Description cannot exceed 350 characters")
+        if len(value) > 500:
+            raise ValueError("Description cannot exceed 500 characters")
         return value
 
 
 class UserLikes(db.Model, SerializerMixin):
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    guitar_id = db.Column(db.Integer, db.ForeignKey('guitars.id'), primary_key=True)
+    __tablename__ = 'user_likes'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    guitar_id = db.Column(db.Integer, db.ForeignKey('guitars.id'))
 
     serialize_rules = ("-guitar.user_likes", "user.user_likes")
     # relationships
-    guitar = db.relationship("Guitar", backref="user_likes")
-    user = db.relationship("User", backref="user_likes")
+    guitars = db.relationship("Guitars", back_populates="user_likes")
+    users = db.relationship("Users", back_populates="user_likes")
 
 
 class Bids(db.Model, SerializerMixin):
+    __tablename__ = "bids"
     id = db.Column(db.Integer, primary_key=True)
     guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
@@ -113,8 +154,8 @@ class Bids(db.Model, SerializerMixin):
     serialize_rules = ("-guitar.bids", "-user.bids")
 
     # relationships
-    guitar = db.relationship("Guitar", backref="bids")
-    user = db.relationship("User", backref="bids")
+    guitars = db.relationship("Guitars", back_populates="bids")
+    users = db.relationship("Users", back_populates="bids")
     
     @validates("offer_price")
     def validate_offer_price(self, key, value):
@@ -123,21 +164,7 @@ class Bids(db.Model, SerializerMixin):
         return value
 
 
-class Exchanges(db.Model, SerializerMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    serialize_rules = ("-guitar.exchanges", "-user.exchanges")
-
-    # relationships
-    guitar = db.relationship("Guitar", backref="exchanges")
-    user = db.relationship("User", backref="exchanges")
-    @validates("offer_guitar")
-    def validate_offer_guitar(self, key, value):
-        if not isinstance(value, Guitars):
-            raise ValueError("Offered item must be a guitar")
-        return value
     # go over this validation  because should it be must be a guitar in YOUR inventory?
                         
 # needs validatiom that must be a from two different guitar( not same ID), and must be a guitar owned by a user, and must be at least one guitar from one user and another guitar from a different user
