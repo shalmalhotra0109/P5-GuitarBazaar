@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+
 const GuitarList = () => {
   const [guitars, setGuitars] = useState([]);
 
@@ -13,22 +14,18 @@ const GuitarList = () => {
 
   return (
     <div>
-      <h2>List of Guitars for Sale</h2>
-      {guitars.map((guitar) => (
-        <div key={guitar.id}>
-          <h3>{guitar.model}</h3>
-          <p>Description: {guitar.description}</p>
-          {guitar.is_selling && (
-            <div>
-              <p>For Sale</p>
-              <p>Price: ${guitar.price}</p>
-            </div>
-          )}
-          {/* Add more details as needed */}
-        </div>
-      ))}
+      <h2>List of Guitars</h2>
+      <ul>
+        {guitars.map(guitar => (
+          <li key={guitar.id}>
+            <h3>{guitar.brand} {guitar.model}</h3>
+            <p><strong>Material:</strong> {guitar.material}</p>
+            <p><strong>Description:</strong> {guitar.description}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-};
+}
 
 export default GuitarList;
