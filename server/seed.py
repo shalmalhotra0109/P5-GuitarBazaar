@@ -49,8 +49,9 @@ with app.app_context():
             # do not need to include user_id here
             exchange1 = Exchanges(owned_guitar_id=guitar1.id, user_id=user4.id, offer_guitar_id=guitar4.id)
             exchange2 = Exchanges(owned_guitar_id=guitar4.id, user_id=user6.id, offer_guitar_id=guitar8.id)
+            exchange3 = Exchanges(owned_guitar_id=guitar10.id, user_id=user3.id, offer_guitar_id=guitar8.id)
 
-            db.session.add_all([exchange1, exchange2])
+            db.session.add_all([exchange1, exchange2, exchange3])
             db.session.commit()
 
         except Exception as e:
