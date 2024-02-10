@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import GuitarList from './GuitarList';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter as Router , Route, Switch } from 'react-router-dom';
-import SearchBar from './SearchBar'; // Import the SearchBar component
+
 // import './App.css';
 
 function App() {

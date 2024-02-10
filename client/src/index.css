@@ -1,0 +1,61 @@
+/* html,
+body {
+  overflow: hidden;
+}
+
+body {
+  background: #58d0c5;
+}
+
+svg {
+  height: 100vh;
+  width: 100vw;
+  display: block;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+i {
+  color: white;
+}
+
+i:hover {
+  color: gray;
+}
+
+.notes,
+.sparks {
+  opacity: 0;
+}
+
+#shadow {
+  animation: shadow 4s infinite linear;
+  transform-origin: 50% 50%;
+}
+
+#guitar_2_ {
+  animation: hover 4s infinite linear;
+}
+
+@keyframes hover {
+  from,
+  to {
+    transition-timing-function: ease-in-out;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transition-timing-function: ease-in-out;
+    transform: translate3d(0, 1.5%, 0);
+  }
+}
+
+@keyframes shadow {
+  from,
+  to {
+    transition-timing-function: ease-in-out;
+    transform: scale(0.95, 1);
+  }
+  50% {
+    transition-timing-function: ease-in-out;
+    transform: scale(1.05, 1);
+  }
+} */

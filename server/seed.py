@@ -41,8 +41,9 @@ with app.app_context():
             bid2 = Bids(guitar_id=guitar1.id, user_id=user6.id, offer_price=2000.00)
             bid3 = Bids(guitar_id=guitar6.id, user_id=user5.id, offer_price=1500.00)
             bid4 = Bids(guitar_id=guitar8.id, user_id=user3.id, offer_price=1100.00)
+            bid5= Bids(guitar_id=guitar1.id, user_id=user3.id, offer_price=2500.00)
 
-            db.session.add_all([bid1, bid2, bid3, bid4])
+            db.session.add_all([bid1, bid2, bid3, bid4, bid5])
             db.session.commit()
 
             # Define exchanges
