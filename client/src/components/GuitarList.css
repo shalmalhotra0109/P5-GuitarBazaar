@@ -1,0 +1,18 @@
+/* GuitarList.css */
+
+/* Container styles */
+.guitar-list-container {
+    display: flex;
+  }
+  
+  /* Add guitar form styles */
+  .add-guitar-form {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  /* Rest of the content styles */
+  .guitar-list-content {
+    flex: 3;
+  }
+  

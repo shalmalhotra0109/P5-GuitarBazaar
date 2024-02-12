@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion, Button, Form } from 'react-bootstrap';
 import Favorites from './Favorites';
+import './GuitarList.css'; // Import the CSS file
 
 function GuitarList() {
   const [guitars, setGuitars] = useState([]);
@@ -77,92 +78,99 @@ function GuitarList() {
   );
 
   return (
-    <div>
+    <div className="guitar-list-container">
       {/* Add guitar form */}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="brand">
-          <Form.Label>Brand</Form.Label>
-          <Form.Control
-            type="text"
-            name="brand"
-            value={formData.brand}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="model">
-          <Form.Label>Model</Form.Label>
-          <Form.Control
-            type="text"
-            name="model"
-            value={formData.model}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="material">
-          <Form.Label>Material</Form.Label>
-          <Form.Control
-            type="text"
-            name="material"
-            value={formData.material}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="description">
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="accept_bids">
-          <Form.Check
-            type="checkbox"
-            label="Accept Bids"
-            name="accept_bids"
-            checked={formData.accept_bids}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="accept_exchange">
-          <Form.Check
-            type="checkbox"
-            label="Accept Exchange"
-            name="accept_exchange"
-            checked={formData.accept_exchange}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Add Guitar
-        </Button>
-      </Form>
+      <div className="add-guitar-form">
+        <h2>Add Guitar</h2>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="brand">
+            <Form.Label>Brand</Form.Label>
+            <Form.Control
+              type="text"
+              name="brand"
+              value={formData.brand}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="model">
+            <Form.Label>Model</Form.Label>
+            <Form.Control
+              type="text"
+              name="model"
+              value={formData.model}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="material">
+            <Form.Label>Material</Form.Label>
+            <Form.Control
+              type="text"
+              name="material"
+              value={formData.material}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="description">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="accept_bids">
+            <Form.Check
+              type="checkbox"
+              label="Accept Bids"
+              name="accept_bids"
+              checked={formData.accept_bids}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="accept_exchange">
+            <Form.Check
+              type="checkbox"
+              label="Accept Exchange"
+              name="accept_exchange"
+              checked={formData.accept_exchange}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Add Guitar
+          </Button>
+        </Form>
+      </div>
 
-      <Form.Group controlId="search">
-        <Form.Control
-          type="text"
-          placeholder="Search for a guitar..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      </Form.Group>
-      <Accordion defaultActiveKey="0">
-        {filteredGuitars.map((guitar) => (
-          <Accordion.Item eventKey={guitar.id} key={guitar.id}>
-            <Accordion.Header>
-              {guitar.brand} - {guitar.model}
-            </Accordion.Header>
-            <Accordion.Body>
-              <p><strong>Material:</strong> {guitar.material}</p>
-              <p>{guitar.description}</p>
-              <p><strong>Accepts Bids:</strong> {guitar.accept_bids ? 'Yes' : 'No'}</p>
-              <p><strong>Accepts Exchanges:</strong> {guitar.accept_exchange ? 'Yes' : 'No'}</p>
-            </Accordion.Body>
-          </Accordion.Item>
-        ))}
-      </Accordion>
+      {/* Rest of the content */}
+      <div className="guitar-list-content">
+        <Form.Group controlId="search">
+          <Form.Control
+            type="text"
+            placeholder="Search for a guitar..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </Form.Group>
+        <Accordion defaultActiveKey="0">
+          {filteredGuitars.map((guitar) => (
+            <Accordion.Item eventKey={guitar.id} key={guitar.id}>
+              <Accordion.Header>
+                {guitar.brand} - {guitar.model}
+              </Accordion.Header>
+              <Accordion.Body>
+                <p><strong>Material:</strong> {guitar.material}</p>
+                <p>{guitar.description}</p>
+                <p><strong>Accepts Bids:</strong> {guitar.accept_bids ? 'Yes' : 'No'}</p>
+                <p><strong>Accepts Exchanges:</strong> {guitar.accept_exchange ? 'Yes' : 'No'}</p>
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+      </div>
+
       {/* Render FavoritesTab component if user is logged in */}
       {userId && <Favorites userId={userId} />}
     </div>
