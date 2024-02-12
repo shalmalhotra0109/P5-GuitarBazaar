@@ -1,78 +1,34 @@
-import React from 'react';
-import {useState, useEffect} from 'react'
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'; // Importing Routes and Navigate
+import { useState } from 'react';
 import GuitarList from './GuitarList';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { BrowserRouter as Router , Route, Switch } from 'react-router-dom';
-
-// import './App.css';
+import LoginForm from './LoginForm';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [guitars, setGuitars] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') === 'true');
 
-  useEffect(() => {
-    // Fetch guitars from the server when the component mounts
-    fetch(`http://127.0.0.1:5000/guitars`)
-      .then((response) => response.json())
-      .then((data) => setGuitars(data))
-      .catch((error) => console.error('Error fetching guitars:', error));
-  }, []);
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleLogin = () => {
-    // Perform login logic here
-    console.log('Logging in with username:', username, 'and password:', password);
-    // Assuming successful login, set loggedIn state to true
-    setLoggedIn(true);
+  const handleLogout = () => {
+    localStorage.removeItem('loggedIn');
+    setLoggedIn(false);
   };
 
   return (
-    <div className="container">
-      <div className="d-flex justify-content-between">
-        <div>
-          {loggedIn ? (
-            <span>Welcome, {username}!</span>
-          ) : (
-            <div>
-              <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <button onClick={handleLogin}>Login</button>
-            </div>
-          )}
-        </div>
-        <h1 className="text-center">List of Guitars</h1>
-        <div className="d-flex justify-content-center mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search guitars..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-        </div>
+    <Router>
+      <div className="container">
+        <Routes>
+          <Route path="/login" element={<LoginForm setLoggedIn={setLoggedIn} />} />
+          <Route path="/guitars" element={loggedIn ? <GuitarList /> : <Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to="/login" />} />
+        </Routes>
       </div>
-      <GuitarList guitars={guitars} searchTerm={searchTerm} />
-    </div>
+    </Router>
   );
 }
 
 export default App;
+
+
+
 
 // function App() {
 //     const [users, setUsers] = useState({});

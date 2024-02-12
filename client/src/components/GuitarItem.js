@@ -1,54 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Accordion } from 'react-bootstrap';
 
-const GuitarItem = ({ guitar }) => {
-  const [bidAmount, setBidAmount] = useState('');
-  const [exchangeGuitar, setExchangeGuitar] = useState('');
 
-  const handleBidClick = () => {
-    // Logic to handle placing a bid
-    console.log(`Placing bid for ${guitar.model} with amount ${bidAmount}`);
-    // You can send the bid to your backend API here
+function GuitarList() {
+  const [guitars, setGuitars] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    // Fetch guitars from the server when the component mounts
+    fetch(`http://127.0.0.1:5000/guitars`)
+      .then((response) => response.json())
+      .then((data) => setGuitars(data))
+      .catch((error) => console.error('Error fetching guitars:', error));
+  }, []);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
-  const handleExchangeClick = () => {
-    // Logic to handle offering an exchange
-    console.log(`Offering exchange for ${guitar.model} with ${exchangeGuitar}`);
-    // You can send the exchange offer to your backend API here
-  };
+  // Filter guitars based on search term
+  const filteredGuitars = guitars.filter((guitar) =>
+    guitar.brand.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="guitar-item">
-      <h3>{guitar.model}</h3>
-      <p>{guitar.description}</p>
-      <p>Price: {guitar.isSelling ? `$${guitar.price}` : 'Not for sale'}</p>
-
-      {/* Place Bid Button */}
-      {guitar.isSelling && (
-        <>
-          <button onClick={handleBidClick}>Place Bid</button>
-          <input
-            type="text"
-            placeholder="Enter bid amount"
-            value={bidAmount}
-            onChange={(e) => setBidAmount(e.target.value)}
-          />
-        </>
-      )}
-
-      {/* Offer Exchange Button */}
-      {guitar.isSelling && (
-        <>
-          <button onClick={handleExchangeClick}>Offer Exchange</button>
-          <select value={exchangeGuitar} onChange={(e) => setExchangeGuitar(e.target.value)}>
-            <option value="">Select a guitar to exchange</option>
-            {/* Display the user's guitars as options */}
-            {/* Replace 'userGuitars' with the actual data source for user's guitars */}
-            {/* Example: {userGuitars.map((g) => <option key={g.id} value={g.id}>{g.model}</option>)} */}
-          </select>
-        </>
-      )}
-    </div>
+    <Accordion defaultActiveKey="0">
+      {filteredGuitars.map((guitar) => (
+        <Accordion.Item eventKey={guitar.id} key={guitar.id}>
+          <Accordion.Header>{guitar.brand} - {guitar.model}</Accordion.Header>
+          <Accordion.Body>
+            <p><strong>Material:</strong> {guitar.material}</p>
+            <p>{guitar.description}</p>
+          </Accordion.Body>
+        </Accordion.Item>
+      ))}
+    </Accordion>
   );
-};
+}
 
-export default GuitarItem;
+export default GuitarList;
