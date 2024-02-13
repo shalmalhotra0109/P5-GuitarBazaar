@@ -195,13 +195,7 @@ class Bids(db.Model, SerializerMixin):
 
 
 
-    # go over this validation  because should it be must be a guitar in YOUR inventory?
-                        
-# needs validatiom that must be a from two different guitar( not same ID), and must be a guitar owned by a user, and must be at least one guitar from one user and another guitar from a different user
-# FRONTEND VALIDATION: checking THAT LOGGED IN user owns THAT GUITAR you can only exchange your own guitar
-
-    
-    
+   
     
 
 
