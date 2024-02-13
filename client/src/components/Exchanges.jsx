@@ -4,7 +4,7 @@ const Exchanges = () => {
   const [exchanges, setExchanges] = useState([]);
 
   useEffect(() => {
-    // Make an HTTP request to retrieve the user's exchanges
+
     fetch('http://127.0.0.1:5000/exchange/<id>')
       .then(response => response.json())
       .then(data => setExchanges(data))
