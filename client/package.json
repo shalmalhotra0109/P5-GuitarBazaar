@@ -2,7 +2,9 @@
     "name": "P5-GuitarBazaar",
     "version": "0.1.0",
     "private": true,
-    "proxy": "http://localhost:5000",
+    "proxy": 
+        "http://localhost:5000"  
+    ,
     "dependencies": {
         "@testing-library/jest-dom": "^5.12.0",
         "@testing-library/react": "^11.2.7",

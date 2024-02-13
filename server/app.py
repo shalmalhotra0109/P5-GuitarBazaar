@@ -19,25 +19,63 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 api = Api(app)
 
-
+app.secret_key = "b'hy\x91fg\x85\x8c\rq\x00&\xa5\xc3\xa4\xb8\xea'"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
 db.init_app(app)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 # create a Migrate object to manage schema modifications
-migrate = Migrate(app, db)
+migrate  = Migrate(app, db, render_as_batch=True)
+class Signup(Resource):
+  def post(self):
+    username = request.get_json().get('username')
+    password = request.get_json().get('password')
+    if username and password and not Users.query.filter(Users.username == username).first():
+        new_user = Users(
+        username = username,
+        password = password
+        )
+        
+        try:
+            
+            db.session.add(new_user)
+            db.session.commit()
+            session['user_id'] = new_user.id
+            return make_response(new_user.to_dict(), 201)
+        except IntegrityError:
+            return {'error': '422 Unprocessable Entity'}, 422
+
+class Login(Resource):
+  def post(self):
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+    user = Users.query.filter(Users.username == username).first()
+    if user :
+        if user.password == password:
+            return make_response(user.to_dict(only=('username', 'id')), 200)
+        return {'error': "Unauthorized"}, 401
+    return {'error': "User Not Found"}, 404
+class CheckSession(Resource):
+  def get(self, id):
+    user = Users.query.filter(Users.id == id).first()
+    if user:
+        return make_response(user.to_dict(), 200)
+    return {'error': 'Unauthorized'}, 401
 
 class UsersResource(Resource):
     def get(self):
         users = [u.to_dict() for u in Users.query.all()]
         return users
 # Create a new User
-    def post(self):
-        user_data = request.get_json()
-        user = Users(**user_data)
-        db.session.add(user)
-        db.session.commit()
-        return user.to_dict(), 201
+    # def post(self):
+    #     user_data = request.get_json()
+    #     user = Users(**user_data)
+    #     db.session.add(user)
+    #     db.session.commit()
+    #     return user.to_dict(), 201
 # get a user
 class UserResource(Resource):
     def get(self, id):
@@ -171,6 +209,9 @@ class ExchangeResource(Resource):
             return {"error": "Exchange not found"}, 404
 
 # Flask routes endpoints
+api.add_resource(Signup, '/signup', endpoint='signup')
+api.add_resource(CheckSession, '/check_session/<id>', endpoint='check_session')
+api.add_resource(Login, '/login')
 api.add_resource(UsersResource, "/users")
 api.add_resource(UserResource, "/user/<id>")
 api.add_resource(GuitarsResource, "/guitars")

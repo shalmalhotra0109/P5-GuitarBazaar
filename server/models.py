@@ -18,27 +18,16 @@ class Users(db.Model, SerializerMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String, nullable=False)
     
-    serialize_rules = "-guitars.user, -user_likes.user, -bids.user, -exchanges.user"
-
     guitars = db.relationship("Guitars", back_populates="users")
     user_likes = db.relationship("UserLikes", back_populates="users")
     bids = db.relationship("Bids", back_populates="users")
     exchanges = db.relationship("Exchanges", back_populates="users")
     
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'password': self.password,    
-            
-        }
-
-    def __repr__(self):
-        return (
-            f"User(id={self.id}, username={self.username}, password={self.password})"
-        )
+    serialize_rules =( "-guitars.user", "-user_likes.user", "-bids.user", "-exchanges.user", "-_password", 
+)
+   
         
     @validates("username")
     def validate_username(self, key, value):
@@ -47,13 +36,17 @@ class Users(db.Model, SerializerMixin):
         if len(value) > 50:
             raise ValueError("Username cannot exceed 50 characters")
         return value
+
     @validates("password")
-    def validate_password(self, key, value):
+    def validate_username(self, key, value):
         if not value:
             raise ValueError("password is Invalid")
         if len(value) > 50:
             raise ValueError("Password cannot exceed 50 characters")
         return value
+    
+    
+
 class Exchanges(db.Model, SerializerMixin):
     __tablename__ = "exchanges"
     id = db.Column(db.Integer, primary_key=True)

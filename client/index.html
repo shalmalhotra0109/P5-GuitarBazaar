@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Guitar Shop</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Guitar Shop</h1>
+
+  <div id="guitar-list"></div>
+
+  <div id="add-guitar-form">
+    <form id="guitar-form">
+      <div>
+        <label for="brand">Brand:</label>
+        <input type="text" id="brand" name="brand" required>
+      </div>
+      <div>
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" required>
+      </div>
+      <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required>
+      </div>
+      <button type="submit">Add Guitar</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

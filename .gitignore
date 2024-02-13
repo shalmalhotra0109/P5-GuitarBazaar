@@ -87,3 +87,4 @@ instance
 package-lock.json
 /server/migrations
 /server/instance
+.aider*
