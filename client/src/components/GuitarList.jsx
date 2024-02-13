@@ -3,11 +3,15 @@ import { Accordion, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 import Favorites from './Favorites';
 import './GuitarList.css'; // Import the CSS file
+import { FaGuitar } from "react-icons/fa";
+import LikeButton from './LikeButton';
 
 function GuitarList() {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  console.log(storedUser)
   const [guitars, setGuitars] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [userId, setUserId] = useState(null); // Add userId state to track logged-in user
+  const [user, setUser] = useState([]); // Add userId state to track logged-in user
 
   // State to manage form input fields
   const [formData, setFormData] = useState({
@@ -27,10 +31,14 @@ function GuitarList() {
       .catch((error) => console.error('Error fetching guitars:', error));
 
     // Fetch user ID when the component mounts (you can replace this with your actual user authentication logic)
-    fetch(`http://127.0.0.1:5000/user/id`)
+    fetch(`http://127.0.0.1:5000/user/${storedUser.id}`)
       .then((response) => response.json())
-      .then((data) => setUserId(data.userId))
-      .catch((error) => console.error('Error fetching user ID:', error));
+      .then((data) =>{
+        setUser(data)
+        console.log(data)
+      }
+      )
+      .catch((error) => console.error('Error fetching user :', error));
   }, []);
 
   const handleSearchChange = (event) => {
@@ -120,13 +128,14 @@ function GuitarList() {
                 <p>{guitar.description}</p>
                 <p><strong>Accepts Bids:</strong> {guitar.accept_bids ? 'Yes' : 'No'}</p>
                 <p><strong>Accepts Exchanges:</strong> {guitar.accept_exchange ? 'Yes' : 'No'}</p>
+                <LikeButton user={user} guitar = {guitar}/>
               </Accordion.Body>
             </Accordion.Item>
           ))}
         </Accordion>
       </div>
       {/* Render FavoritesTab component if user is logged in */}
-      {userId && <Favorites userId={userId} />}
+      {user && <Favorites user={user.id} />}
     </div>
   );
 }
