@@ -116,7 +116,7 @@ class GuitarResource(Resource):
         return '', 204
 
     def patch(self, id):
-        guitar = Guitars.query.filter(Guitars.id==id)
+        guitar = Guitars.query.filter(Guitars.id==id).first()
         data = request.get_json()
         for key, value in data.items():
             setattr(guitar, key, value)
@@ -137,10 +137,20 @@ class UserLikesResource(Resource):
         return user_likes.to_dict(), 201
 # get user like
 class UserLikeResource(Resource):
+ 
     def get(self, id):
-        user_likes = UserLikes.query.filter(Users.id == id).all()
-        rb = [like.to_dict() for like in user_likes]
-        return make_response(rb,200)
+        # Fetch all UserLikes entries for the user
+        user_likes_ids = UserLikes.query.filter(UserLikes.user_id == id).all()
+        guitar_ids = [like.guitar_id for like in user_likes_ids]
+
+        # Assuming guitar_ids is not empty, fetch all Guitars in a single query
+        if guitar_ids:
+            likes = Guitars.query.filter(Guitars.id.in_(guitar_ids)).all()
+            rb = [like.to_dict() for like in likes]
+        else:
+            rb = []
+
+        return make_response(rb, 200)
 
     def post(self, id):
         data = request.get_json()
