@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function LoginForm({ setLoggedIn }) {
+function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -10,22 +10,21 @@ function LoginForm({ setLoggedIn }) {
     e.preventDefault();
 
     try {
-      // Make a POST request to your backend API to authenticate the user
-      const response = await fetch('http://127.0.0.1:5000/user/<id>', {
+
+      const response = await fetch('http://127.0.0.1:5000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ 
+          username:username, 
+          password:password }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        const { name } = data;
-        localStorage.setItem('loggedIn', 'true');
-        setLoggedIn(true);
+        localStorage.setItem("user", JSON.stringify(data));
         navigate('/guitars');
-        alert(`Welcome ${name}!`);
       } else {
         console.error('Error during login:', response.statusText);
       }
