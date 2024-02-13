@@ -42,10 +42,10 @@ function CreateGuitar({user}) {
 
       const data = await response.json();
       console.log('Guitar created successfully:', data);
-      
+      // Here you might want to clear the form or give some feedback to the user
     } catch (error) {
       console.error('Error creating guitar:', error);
-    
+      
     }
   };
 
