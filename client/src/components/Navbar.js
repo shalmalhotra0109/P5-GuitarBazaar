@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 
 function Navbar() {
   return (
-    <Form>
+    <Form style={{ background: 'linear-gradient(45deg, black, gray)' }}>
       <Form.Group controlId="searchForm">
         <Form.Control type="text" placeholder="Search guitars..." />
         <Button variant="primary" type="submit">
@@ -15,4 +15,4 @@ function Navbar() {
   );
 }
 
-export default NavBar;
+export default Navbar;
