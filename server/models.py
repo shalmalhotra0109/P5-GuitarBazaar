@@ -23,9 +23,9 @@ class Users(db.Model, SerializerMixin):
     guitars = db.relationship("Guitars", back_populates="users")
     user_likes = db.relationship("UserLikes", back_populates="users")
     bids = db.relationship("Bids", back_populates="users")
-    exchanges = db.relationship("Exchanges", back_populates="users")
     
-    serialize_rules =( "-guitars", "-user_likes.users","-user_likes.guitars","-bids.guitars", "-bids.users", "-exchanges.users","-exchanges.guitars", "-password", 
+    
+    serialize_rules =( "-guitars", "-user_likes.users","-user_likes.guitars","-bids.guitars", "-bids.users",  "-password", 
 )
    
         
@@ -51,7 +51,6 @@ class Exchanges(db.Model, SerializerMixin):
     __tablename__ = "exchanges"
     id = db.Column(db.Integer, primary_key=True)
     owned_guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     offer_guitar_id = db.Column(db.Integer, db.ForeignKey("guitars.id"), nullable=False)
 
     serialize_rules = ("-guitar.exchanges", "-users.exchanges")
@@ -59,13 +58,12 @@ class Exchanges(db.Model, SerializerMixin):
     # relationships
     owned_guitar = db.relationship("Guitars", back_populates="owned_exchanges", foreign_keys=[owned_guitar_id])
     offer_guitar = db.relationship("Guitars", back_populates="offer_exchanges", foreign_keys=[offer_guitar_id])
-    users = db.relationship("Users", back_populates="exchanges")
+    
     
     def to_dict(self):
         return {
             'id': self.id,
             'owned_guitar_id': self.owned_guitar_id,
-            'user_id': self.user_id,
             'offer_guitar_id': self.offer_guitar_id,
             
         }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Button, Form, Row, Col } from 'react-bootstrap';
 import LikeButton from './LikeButton';
 import MyNavbar from './Navbar';
+import ExchangeForm from './ExchangeForm';
 const Favorites = () => {
   const [likedGuitars, setLikedGuitars] = useState([]);
   const [user, setUser] = useState([]);
@@ -54,9 +55,18 @@ const Favorites = () => {
                 <p>{guitar.description}</p>
                 <p><strong>Accepts Bids:</strong> {guitar.accept_bids ? 'Yes' : 'No'}</p>
                 <p><strong>Accepts Exchanges:</strong> {guitar.accept_exchange ? 'Yes' : 'No'}</p>
+                <Row>
+                <Col>  
                 <div onClick={()=>{ const lG = likedGuitars; const nLG = lG.filter(g=>g.id !== guitar.id); setLikedGuitars(nLG)}}>
                 <LikeButton user={user} guitar = {guitar}/>
                 </div>
+                </Col>
+                <Col>
+                  {guitar.accept_exchange ?
+                  <ExchangeForm wantGuitar={guitar} />:<></>  
+                }
+                </Col>
+                </Row>
               </Accordion.Body>
             </Accordion.Item>
           ))}
