@@ -42,9 +42,8 @@ class Signup(Resource):
             
             db.session.add(new_user)
             db.session.commit()
-            session['user_id'] = new_user.id
             return make_response(new_user.to_dict(), 201)
-        except IntegrityError:
+        except ValueError:
             return {'error': '422 Unprocessable Entity'}, 422
 
 class Login(Resource):
@@ -79,8 +78,10 @@ class UsersResource(Resource):
 # get a user
 class UserResource(Resource):
     def get(self, id):
-        user = Users.query.get(id)
-        return user.to_dict()
+        user = Users.query.filter(Users.id == id).first()
+        if user:
+            print(user.to_dict())
+        return make_response(user.to_dict(), 200)
 # delete a user
     def delete(self, id):
         user = Users.query.get(id)
@@ -101,12 +102,12 @@ class GuitarsResource(Resource):
         guitar = Guitars(**data)
         db.session.add(guitar)
         db.session.commit()
-        return jsonify(guitar.to_dict()), 201
+        return make_response(guitar.to_dict(), 201)
 
 class GuitarResource(Resource):
     def get(self, id):
-        guitar = Guitars.query.get_or_404(id)
-        return jsonify(guitar.to_dict())
+        guitars = Guitars.query.filter(Guitars.user_id==id).all()
+        return make_response([guitar.to_dict() for guitar in guitars], 200)
 
     def delete(self, id):
         guitar = Guitars.query.get_or_404(id)
@@ -114,13 +115,13 @@ class GuitarResource(Resource):
         db.session.commit()
         return '', 204
 
-    def put(self, id):
-        guitar = Guitars.query.get_or_404(id)
+    def patch(self, id):
+        guitar = Guitars.query.filter(Guitars.id==id)
         data = request.get_json()
         for key, value in data.items():
             setattr(guitar, key, value)
         db.session.commit()
-        return jsonify(guitar.to_dict())
+        return make_response(guitar.to_dict(), 203)
 
 # get all user likes
 class UserLikesResource(Resource):
@@ -137,24 +138,27 @@ class UserLikesResource(Resource):
 # get user like
 class UserLikeResource(Resource):
     def get(self, id):
-        user_likes = UserLikes.query.get(id)
-        return user_likes.to_dict()
+        user_likes = UserLikes.query.filter(Users.id == id).all()
+        rb = [like.to_dict() for like in user_likes]
+        return make_response(rb,200)
 
     def post(self, id):
-        user_data = request.get_json()
-        user_likes = UserLikes(**user_data)
-        db.session.add(user_likes)
-        db.session.commit()
-        return user_likes.to_dict(), 201
-# delete a like
-    def delete(self, id):
-        user_likes = UserLikes.query.get(id)
-        if user_likes:
-            db.session.delete(user_likes)
+        data = request.get_json()
+        guitar_id = data.get('guitar_id')
+        existing_like = UserLikes.query.filter(UserLikes.user_id == id, UserLikes.guitar_id == int(guitar_id)).first()
+        if existing_like:
+            db.session.delete(existing_like)
             db.session.commit()
-            return "", 204
-        else:
-            return {"error": "UserLikes not found"}, 404
+            return make_response({guitar_id:'none'}, 204)
+        else:    
+            user_likes = UserLikes(
+                user_id = int(id),
+                guitar_id = int(guitar_id)
+            )
+            db.session.add(user_likes)
+            db.session.commit()
+            return make_response(user_likes.to_dict(), 201)
+
 # all bids
 class BidsResource(Resource):
     def get(self):

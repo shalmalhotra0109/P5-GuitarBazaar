@@ -6,6 +6,7 @@ import Favorites from "./Favorites";
 import UserGuitars from "./UserGuitars";
 import Bids from "./Bids";
 import Exchanges from "./Exchanges";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
