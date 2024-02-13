@@ -5,7 +5,8 @@ import Favorites from './Favorites';
 import './GuitarList.css'; // Import the CSS file
 import { FaGuitar } from "react-icons/fa";
 import LikeButton from './LikeButton';
-
+import CreateGuitar from './CreateGuitar';
+import MyNavbar from './Navbar';
 function GuitarList() {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   console.log(storedUser)
@@ -88,6 +89,7 @@ function GuitarList() {
 
   return (
     <div>
+      <MyNavbar/>
       <h1>Guitar List</h1>
       {/* Navigation links */}
       <nav>
@@ -101,12 +103,7 @@ function GuitarList() {
         </ul>
       </nav>
       {/* Add guitar form */}
-      <div className="add-guitar-form">
-        <h2>Add Guitar</h2>
-        <Form onSubmit={handleSubmit}>
-          {/* Form controls */}
-        </Form>
-      </div>
+      <CreateGuitar user={user}/>
       {/* Display guitars */}
       <div className="guitar-list-content">
         <Form.Group controlId="search">

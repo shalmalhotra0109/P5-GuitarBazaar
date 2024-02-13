@@ -2,19 +2,19 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function CreateGuitar({user}) {
+function UpdateGuitar({guitarData}) {
   const [show, setShow] = useState(false);
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [guitar, setGuitar] = useState({
     user_id: storedUser.id,
-    brand: '',
-    model: '',
-    material: '',
-    description: '',
-    accept_bids: false,
-    accept_exchange: false,
+    brand: guitarData.brand,
+    model: guitarData.model,
+    material: guitarData.material,
+    description: guitarData.description,
+    accept_bids: guitarData.accept_bids,
+    accept_exchange: guitarData.accept_exchange,
   });
 
   const handleChange = (event) => {
@@ -28,8 +28,8 @@ function CreateGuitar({user}) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://127.0.0.1:5000/guitars', {
-        method: 'POST',
+      const response = await fetch(`http://127.0.0.1:5000/guitar/${guitarData.id}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -52,13 +52,13 @@ function CreateGuitar({user}) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Add Guitar Listing
+      <Button variant="info" onClick={handleShow}>
+        Update
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Guitar Listing</Modal.Title>
+          <Modal.Title>Update Guitar Listing</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <form onSubmit={handleSubmit}>
@@ -125,4 +125,4 @@ function CreateGuitar({user}) {
   );
 }
 
-export default CreateGuitar;
+export default UpdateGuitar;
