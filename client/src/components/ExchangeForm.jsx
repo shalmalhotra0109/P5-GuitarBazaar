@@ -27,12 +27,14 @@ const ExchangeForm = ({wantGuitar}) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const exhangeQuery={
-        owned_guitar_id = selectedGuitar
-        offer_guitar_id = wantGuitar.id
-    }
-
+    // const exhangeQuery={ 
+    //   owned_guitar_id = selectedGuitar,
+    //   offer_guitar_id = wantGuitar.id
+    // }
+  
   }
+        
+        
   
   return (
     <>
