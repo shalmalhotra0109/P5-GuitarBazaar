@@ -114,4 +114,3 @@ function rockOut() {
 //Do the stuff when clicked
 guitar.addEventListener("click", rockOut);
 
-export default LoginFormAnimation

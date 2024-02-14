@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import './LoginFormAnimation.css';
+import LoginFormAnimation from './LoginFormAnimation.jsx';
+
 
 function LoginForm() {
   const [username, setUsername] = useState('');
@@ -34,23 +37,26 @@ function LoginForm() {
   };
 
   return (
-    <div>
-      <h1>Welcome to the Guitar Bazaar! Please Log In!</h1>
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
+    <div class="login-container">
+      <div class="login-wrapper">
+        <h1>Welcome to the Guitar Bazaar! Please Log In!</h1>
+        <form onSubmit={handleLogin}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit">Login</button>
+        </form>
+        <LoginFormAnimation />
+      </div>
     </div>
   );
 }
