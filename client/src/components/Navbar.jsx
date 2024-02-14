@@ -14,7 +14,7 @@ const MyNavbar = () => {
             <Link to="/guitars">Home</Link>
             <Link to="/user-likes">Favorites</Link>
             <Link to={`/guitar/${storedUser.id}`}>User Guitars</Link>
-            <Nav.Link to="/">Bids & Exchanges</Nav.Link>
+            <Link to={`/exchange/${storedUser.id}`}>Exchanges</Link>
           </Nav>
         </Container>
       </Navbar>
