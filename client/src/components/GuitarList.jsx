@@ -16,6 +16,7 @@ function GuitarList() {
 
   // State to manage form input fields
   const [formData, setFormData] = useState({
+    user_id: '',
     brand: '',
     model: '',
     material: '',
@@ -70,6 +71,7 @@ function GuitarList() {
         setGuitars(prevGuitars => [...prevGuitars, data]);
         // Clear the form data
         setFormData({
+         user_id:'',
           brand: '',
           model: '',
           material: '',
@@ -91,7 +93,7 @@ function GuitarList() {
     <div>
       <MyNavbar/>
       <h1>Guitar List</h1>
-      {/* Navigation links */}
+      {/* Navigation links
       <nav>
         <ul>
           <li>
@@ -101,7 +103,7 @@ function GuitarList() {
             <Link to="/user-guitars">User Guitars</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
       {/* Add guitar form */}
       <CreateGuitar user={user}/>
       {/* Display guitars */}
